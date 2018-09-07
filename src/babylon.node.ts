@@ -390,22 +390,18 @@
 
         /** @hidden */
         public isSynchronized(): boolean {
-            var check = this.hasNewParent();
-
-            check = check || !this.isSynchronizedWithParent();
-            check = check || !this._isSynchronized();
-
-            return !check;
-        }
-
-        /** @hidden */
-        public hasNewParent(): boolean {
-            if (this._cache.parent === this._parentNode)
+            if (this._cache.parent != this._parentNode) {
+                this._cache.parent = this._parentNode;
                 return false;
+            }
 
-            this._cache.parent = this._parentNode;
+            if (this._parentNode) {
+                if (!this.isSynchronizedWithParent()) {
+                    return false;
+                }
+            }
 
-            return true;
+            return this._isSynchronized();
         }
 
         /**

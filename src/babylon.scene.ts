@@ -3932,7 +3932,7 @@
   
             // Determine mesh candidates
             const meshes = this.meshes;//this.getActiveMeshCandidates();
-            
+           
             // Check each mesh
             const len = meshes.length;
             for (let i = 0; i < len; i++) {
