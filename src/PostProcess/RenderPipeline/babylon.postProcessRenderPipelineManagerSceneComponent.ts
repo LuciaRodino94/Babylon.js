@@ -11,23 +11,23 @@ module BABYLON {
         readonly postProcessRenderPipelineManager: PostProcessRenderPipelineManager;
     }
 
-    Object.defineProperty(Scene.prototype, "postProcessRenderPipelineManager", {
-        get: function (this:Scene) {
-            if (!this._postProcessRenderPipelineManager) {
-                // Register the G Buffer component to the scene.
-                let component = this._getComponent(SceneComponentConstants.NAME_POSTPROCESSRENDERPIPELINEMANAGER) as PostProcessRenderPipelineManagerSceneComponent;
-                if (!component) {
-                    component = new PostProcessRenderPipelineManagerSceneComponent(this);
-                    this._addComponent(component);
-                }
-                this._postProcessRenderPipelineManager = new PostProcessRenderPipelineManager();
-            }
+    // Object.defineProperty(Scene.prototype, "postProcessRenderPipelineManager", {
+    //     get: function (this:Scene) {
+    //         if (!this._postProcessRenderPipelineManager) {
+    //             // Register the G Buffer component to the scene.
+    //             let component = this._getComponent(SceneComponentConstants.NAME_POSTPROCESSRENDERPIPELINEMANAGER) as PostProcessRenderPipelineManagerSceneComponent;
+    //             if (!component) {
+    //                 component = new PostProcessRenderPipelineManagerSceneComponent(this);
+    //                 this._addComponent(component);
+    //             }
+    //             this._postProcessRenderPipelineManager = new PostProcessRenderPipelineManager();
+    //         }
     
-            return this._postProcessRenderPipelineManager;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    //         return this._postProcessRenderPipelineManager;
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
     /**
      * Defines the Render Pipeline scene component responsible to rendering pipelines

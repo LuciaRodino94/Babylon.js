@@ -18,29 +18,29 @@
         getBoundingBoxRenderer(): BoundingBoxRenderer;
     }
 
-    Object.defineProperty(Scene.prototype, "forceShowBoundingBoxes", {
-        get: function (this:Scene) {
-            return this._forceShowBoundingBoxes || false;
-        },
-        set: function (this:Scene, value: boolean) {
-            this._forceShowBoundingBoxes = value;
-            // Lazyly creates a BB renderer if needed.
-            if (value) {
-                this.getBoundingBoxRenderer();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
+    // Object.defineProperty(Scene.prototype, "forceShowBoundingBoxes", {
+    //     get: function (this:Scene) {
+    //         return this._forceShowBoundingBoxes || false;
+    //     },
+    //     set: function (this:Scene, value: boolean) {
+    //         this._forceShowBoundingBoxes = value;
+    //         // Lazyly creates a BB renderer if needed.
+    //         if (value) {
+    //             this.getBoundingBoxRenderer();
+    //         }
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
-    Scene.prototype.getBoundingBoxRenderer = function(): BoundingBoxRenderer {
+    // Scene.prototype.getBoundingBoxRenderer = function(): BoundingBoxRenderer {
 
-        if (!this._boundingBoxRenderer) {
-            this._boundingBoxRenderer = new BoundingBoxRenderer(this);
-        }
+    //     if (!this._boundingBoxRenderer) {
+    //         this._boundingBoxRenderer = new BoundingBoxRenderer(this);
+    //     }
 
-        return this._boundingBoxRenderer;
-    }
+    //     return this._boundingBoxRenderer;
+    // }
 
     export interface AbstractMesh {
         /** @hidden (Backing field) */
@@ -52,20 +52,20 @@
         showBoundingBox: boolean;
     }
 
-    Object.defineProperty(AbstractMesh.prototype, "showBoundingBox", {
-        get: function (this: AbstractMesh) {
-            return this._showBoundingBox || false;
-        },
-        set: function (this: AbstractMesh, value: boolean) {
-            this._showBoundingBox = value;
-            // Lazyly creates a BB renderer if needed.
-            if (value) {
-                this.getScene().getBoundingBoxRenderer();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
+    // Object.defineProperty(AbstractMesh.prototype, "showBoundingBox", {
+    //     get: function (this: AbstractMesh) {
+    //         return this._showBoundingBox || false;
+    //     },
+    //     set: function (this: AbstractMesh, value: boolean) {
+    //         this._showBoundingBox = value;
+    //         // Lazyly creates a BB renderer if needed.
+    //         if (value) {
+    //             this.getScene().getBoundingBoxRenderer();
+    //         }
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
     export class BoundingBoxRenderer implements ISceneComponent {
         /**

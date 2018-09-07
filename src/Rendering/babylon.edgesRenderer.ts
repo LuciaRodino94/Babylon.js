@@ -22,27 +22,27 @@
         edgesRenderer: Nullable<EdgesRenderer>;
     }
 
-    AbstractMesh.prototype.disableEdgesRendering = function(): AbstractMesh {
-        if (this._edgesRenderer) {
-            this._edgesRenderer.dispose();
-            this._edgesRenderer = null;
-        }
-        return this;
-    }
+    // AbstractMesh.prototype.disableEdgesRendering = function(): AbstractMesh {
+    //     if (this._edgesRenderer) {
+    //         this._edgesRenderer.dispose();
+    //         this._edgesRenderer = null;
+    //     }
+    //     return this;
+    // }
 
-    AbstractMesh.prototype.enableEdgesRendering = function(epsilon = 0.95, checkVerticesInsteadOfIndices = false): AbstractMesh {
-        this.disableEdgesRendering();
-        this._edgesRenderer = new EdgesRenderer(this, epsilon, checkVerticesInsteadOfIndices);
-        return this;
-    }
+    // AbstractMesh.prototype.enableEdgesRendering = function(epsilon = 0.95, checkVerticesInsteadOfIndices = false): AbstractMesh {
+    //     this.disableEdgesRendering();
+    //     this._edgesRenderer = new EdgesRenderer(this, epsilon, checkVerticesInsteadOfIndices);
+    //     return this;
+    // }
 
-    Object.defineProperty(AbstractMesh.prototype, "edgesRenderer", {
-        get: function (this:AbstractMesh) {
-            return this._edgesRenderer;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    // Object.defineProperty(AbstractMesh.prototype, "edgesRenderer", {
+    //     get: function (this:AbstractMesh) {
+    //         return this._edgesRenderer;
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
     export interface LinesMesh {
         /**
@@ -56,11 +56,11 @@
         enableEdgesRendering(epsilon?: number, checkVerticesInsteadOfIndices?: boolean): AbstractMesh;
     }
 
-    LinesMesh.prototype.enableEdgesRendering = function(epsilon = 0.95, checkVerticesInsteadOfIndices = false): AbstractMesh {
-        this.disableEdgesRendering();
-        this._edgesRenderer = new LineEdgesRenderer(this, epsilon, checkVerticesInsteadOfIndices);
-        return this;
-    }
+    // LinesMesh.prototype.enableEdgesRendering = function(epsilon = 0.95, checkVerticesInsteadOfIndices = false): AbstractMesh {
+    //     this.disableEdgesRendering();
+    //     this._edgesRenderer = new LineEdgesRenderer(this, epsilon, checkVerticesInsteadOfIndices);
+    //     return this;
+    // }
 
     /**
      * FaceAdjacencies Helper class to generate edges

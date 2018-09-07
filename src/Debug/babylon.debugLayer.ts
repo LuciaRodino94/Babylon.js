@@ -18,16 +18,16 @@ module BABYLON {
         debugLayer: DebugLayer;
     }
     
-    Object.defineProperty(Scene.prototype, "debugLayer", {
-        get: function (this: Scene) {
-            if (!this._debugLayer) {
-                this._debugLayer = new DebugLayer(this);
-            }
-            return this._debugLayer;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    // Object.defineProperty(Scene.prototype, "debugLayer", {
+    //     get: function (this: Scene) {
+    //         if (!this._debugLayer) {
+    //             this._debugLayer = new DebugLayer(this);
+    //         }
+    //         return this._debugLayer;
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
     export class DebugLayer {
         private _scene: Scene;

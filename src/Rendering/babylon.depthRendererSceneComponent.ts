@@ -17,39 +17,39 @@
         disableDepthRenderer(camera?: Nullable<Camera>): void;
     }
 
-    Scene.prototype.enableDepthRenderer = function(camera?: Nullable<Camera>): DepthRenderer {
-        camera = camera || this.activeCamera;
-        if (!camera) {
-            throw "No camera available to enable depth renderer";
-        }
-        if (!this._depthRenderer) {
-            this._depthRenderer = {};
-        }
-        if (!this._depthRenderer[camera.id]) {
-            var textureType = 0;
-            if (this.getEngine().getCaps().textureHalfFloatRender) {
-                textureType = Engine.TEXTURETYPE_HALF_FLOAT;
-            }
-            else if (this.getEngine().getCaps().textureFloatRender) {
-                textureType = Engine.TEXTURETYPE_FLOAT;
-            } else {
-                throw "Depth renderer does not support int texture type";
-            }
-            this._depthRenderer[camera.id] = new DepthRenderer(this, textureType, camera);
-        }
+    // Scene.prototype.enableDepthRenderer = function(camera?: Nullable<Camera>): DepthRenderer {
+    //     camera = camera || this.activeCamera;
+    //     if (!camera) {
+    //         throw "No camera available to enable depth renderer";
+    //     }
+    //     if (!this._depthRenderer) {
+    //         this._depthRenderer = {};
+    //     }
+    //     if (!this._depthRenderer[camera.id]) {
+    //         var textureType = 0;
+    //         if (this.getEngine().getCaps().textureHalfFloatRender) {
+    //             textureType = Engine.TEXTURETYPE_HALF_FLOAT;
+    //         }
+    //         else if (this.getEngine().getCaps().textureFloatRender) {
+    //             textureType = Engine.TEXTURETYPE_FLOAT;
+    //         } else {
+    //             throw "Depth renderer does not support int texture type";
+    //         }
+    //         this._depthRenderer[camera.id] = new DepthRenderer(this, textureType, camera);
+    //     }
 
-        return this._depthRenderer[camera.id];
-    }
+    //     return this._depthRenderer[camera.id];
+    // }
 
-    Scene.prototype.disableDepthRenderer = function(camera?: Nullable<Camera>): void {
-        camera = camera || this.activeCamera;
-        if (!camera || !this._depthRenderer || !this._depthRenderer[camera.id]) {
-            return;
-        }
+    // Scene.prototype.disableDepthRenderer = function(camera?: Nullable<Camera>): void {
+    //     camera = camera || this.activeCamera;
+    //     if (!camera || !this._depthRenderer || !this._depthRenderer[camera.id]) {
+    //         return;
+    //     }
 
-        this._depthRenderer[camera.id].dispose();
-        delete this._depthRenderer[camera.id];
-    }
+    //     this._depthRenderer[camera.id].dispose();
+    //     delete this._depthRenderer[camera.id];
+    // }
 
     /**
      * Defines the Depth Renderer scene component responsible to manage a depth buffer usefull

@@ -10,16 +10,16 @@
         getOutlineRenderer(): OutlineRenderer;
     }
 
-    /** 
-     * Gets the outline renderer associated with the scene
-     * @returns a OutlineRenderer
-     */
-    Scene.prototype.getOutlineRenderer = function(): OutlineRenderer {
-        if (!this._outlineRenderer) {
-            this._outlineRenderer = new OutlineRenderer(this);
-        }
-        return this._outlineRenderer;
-    }
+    // /** 
+    //  * Gets the outline renderer associated with the scene
+    //  * @returns a OutlineRenderer
+    //  */
+    // Scene.prototype.getOutlineRenderer = function(): OutlineRenderer {
+    //     if (!this._outlineRenderer) {
+    //         this._outlineRenderer = new OutlineRenderer(this);
+    //     }
+    //     return this._outlineRenderer;
+    // }
 
     export interface AbstractMesh {
         /** @hidden (Backing field) */
@@ -39,35 +39,35 @@
         renderOverlay: boolean;
     }
 
-    Object.defineProperty(AbstractMesh.prototype, "renderOutline", {
-        get: function (this:AbstractMesh) {
-            return this._renderOutline;
-        },
-        set: function (this:AbstractMesh, value: boolean) {
-            if (value) {
-                // Lazy Load the component.
-                this.getScene().getOutlineRenderer();
-            }
-            this._renderOutline = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    // Object.defineProperty(AbstractMesh.prototype, "renderOutline", {
+    //     get: function (this:AbstractMesh) {
+    //         return this._renderOutline;
+    //     },
+    //     set: function (this:AbstractMesh, value: boolean) {
+    //         if (value) {
+    //             // Lazy Load the component.
+    //             this.getScene().getOutlineRenderer();
+    //         }
+    //         this._renderOutline = value;
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
-    Object.defineProperty(AbstractMesh.prototype, "renderOverlay", {
-        get: function (this:AbstractMesh) {
-            return this._renderOverlay;
-        },
-        set: function (this:AbstractMesh, value: boolean) {
-            if (value) {
-                // Lazy Load the component.
-                this.getScene().getOutlineRenderer();
-            }
-            this._renderOverlay = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    // Object.defineProperty(AbstractMesh.prototype, "renderOverlay", {
+    //     get: function (this:AbstractMesh) {
+    //         return this._renderOverlay;
+    //     },
+    //     set: function (this:AbstractMesh, value: boolean) {
+    //         if (value) {
+    //             // Lazy Load the component.
+    //             this.getScene().getOutlineRenderer();
+    //         }
+    //         this._renderOverlay = value;
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
     /**
      * This class is responsible to draw bothe outline/overlay of meshes.

@@ -22,32 +22,32 @@
         createOrUpdateSelectionOctree(maxCapacity?: number, maxDepth?: number): Octree<AbstractMesh>;
     }
 
-    Scene.prototype.createOrUpdateSelectionOctree = function(maxCapacity = 64, maxDepth = 2): Octree<AbstractMesh> {
-        let component = this._getComponent(SceneComponentConstants.NAME_OCTREE);
-        if (!component) {
-            component = new OctreeSceneComponent(this);
-            this._addComponent(component);
-        }
+//     Scene.prototype.createOrUpdateSelectionOctree = function(maxCapacity = 64, maxDepth = 2): Octree<AbstractMesh> {
+//         let component = this._getComponent(SceneComponentConstants.NAME_OCTREE);
+//         if (!component) {
+//             component = new OctreeSceneComponent(this);
+//             this._addComponent(component);
+//         }
         
-        if (!this._selectionOctree) {
-            this._selectionOctree = new Octree<AbstractMesh>(Octree.CreationFuncForMeshes, maxCapacity, maxDepth);
-        }
+//         if (!this._selectionOctree) {
+//             this._selectionOctree = new Octree<AbstractMesh>(Octree.CreationFuncForMeshes, maxCapacity, maxDepth);
+//         }
 
-        var worldExtends = this.getWorldExtends();
+//         var worldExtends = this.getWorldExtends();
 
-        // Update octree
-        this._selectionOctree.update(worldExtends.min, worldExtends.max, this.meshes);
+//         // Update octree
+//         this._selectionOctree.update(worldExtends.min, worldExtends.max, this.meshes);
 
-        return this._selectionOctree;
-   }
+//         return this._selectionOctree;
+//    }
 
-    Object.defineProperty(Scene.prototype, "selectionOctree", {
-        get: function (this:Scene) {
-            return this._selectionOctree;
-        },
-        enumerable: true,
-        configurable: true
-    });
+//     Object.defineProperty(Scene.prototype, "selectionOctree", {
+//         get: function (this:Scene) {
+//             return this._selectionOctree;
+//         },
+//         enumerable: true,
+//         configurable: true
+//     });
 
     export interface AbstractMesh {
         /** 
@@ -68,37 +68,37 @@
         createOrUpdateSubmeshesOctree(maxCapacity?: number, maxDepth?: number): Octree<SubMesh>;
     }
 
-    /**
-     * This function will create an octree to help to select the right submeshes for rendering, picking and collision computations.  
-     * Please note that you must have a decent number of submeshes to get performance improvements when using an octree
-     * @param maxCapacity defines the maximum size of each block (64 by default)
-     * @param maxDepth defines the maximum depth to use (no more than 2 levels by default)
-     * @returns the new octree
-     * @see https://www.babylonjs-playground.com/#NA4OQ#12
-     * @see http://doc.babylonjs.com/how_to/optimizing_your_scene_with_octrees
-     */
-    AbstractMesh.prototype.createOrUpdateSubmeshesOctree = function(maxCapacity = 64, maxDepth = 2): Octree<SubMesh> {
-        const scene = this.getScene();
-        let component = scene._getComponent(SceneComponentConstants.NAME_OCTREE);
-        if (!component) {
-            component = new OctreeSceneComponent(scene);
-            scene._addComponent(component);
-        }
+    // /**
+    //  * This function will create an octree to help to select the right submeshes for rendering, picking and collision computations.  
+    //  * Please note that you must have a decent number of submeshes to get performance improvements when using an octree
+    //  * @param maxCapacity defines the maximum size of each block (64 by default)
+    //  * @param maxDepth defines the maximum depth to use (no more than 2 levels by default)
+    //  * @returns the new octree
+    //  * @see https://www.babylonjs-playground.com/#NA4OQ#12
+    //  * @see http://doc.babylonjs.com/how_to/optimizing_your_scene_with_octrees
+    //  */
+    // AbstractMesh.prototype.createOrUpdateSubmeshesOctree = function(maxCapacity = 64, maxDepth = 2): Octree<SubMesh> {
+    //     const scene = this.getScene();
+    //     let component = scene._getComponent(SceneComponentConstants.NAME_OCTREE);
+    //     if (!component) {
+    //         component = new OctreeSceneComponent(scene);
+    //         scene._addComponent(component);
+    //     }
 
-        if (!this._submeshesOctree) {
-            this._submeshesOctree = new Octree<SubMesh>(Octree.CreationFuncForSubMeshes, maxCapacity, maxDepth);
-        }
+    //     if (!this._submeshesOctree) {
+    //         this._submeshesOctree = new Octree<SubMesh>(Octree.CreationFuncForSubMeshes, maxCapacity, maxDepth);
+    //     }
 
-        this.computeWorldMatrix(true);
+    //     this.computeWorldMatrix(true);
 
-        let boundingInfo = this.getBoundingInfo();
+    //     let boundingInfo = this.getBoundingInfo();
 
-        // Update octree
-        var bbox = boundingInfo.boundingBox;
-        this._submeshesOctree.update(bbox.minimumWorld, bbox.maximumWorld, this.subMeshes);
+    //     // Update octree
+    //     var bbox = boundingInfo.boundingBox;
+    //     this._submeshesOctree.update(bbox.minimumWorld, bbox.maximumWorld, this.subMeshes);
 
-        return this._submeshesOctree;
-    }
+    //     return this._submeshesOctree;
+    // }
 
     /**
      * Defines the octree scene component responsible to manage any octrees

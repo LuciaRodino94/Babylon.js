@@ -44,27 +44,27 @@
             onCompiled?: (effect: Effect) => void, onError?: (effect: Effect, errors: string) => void): Effect
     }
 
-    Engine.prototype.createEffectForParticles = function(fragmentName: string, uniformsNames: string[] = [], samplers: string[] = [], defines = "", fallbacks?: EffectFallbacks,
-        onCompiled?: (effect: Effect) => void, onError?: (effect: Effect, errors: string) => void): Effect {
+    // Engine.prototype.createEffectForParticles = function(fragmentName: string, uniformsNames: string[] = [], samplers: string[] = [], defines = "", fallbacks?: EffectFallbacks,
+    //     onCompiled?: (effect: Effect) => void, onError?: (effect: Effect, errors: string) => void): Effect {
 
-        var attributesNamesOrOptions = ParticleSystem._GetAttributeNamesOrOptions();
-        var effectCreationOption = ParticleSystem._GetEffectCreationOptions();
+    //     var attributesNamesOrOptions = ParticleSystem._GetAttributeNamesOrOptions();
+    //     var effectCreationOption = ParticleSystem._GetEffectCreationOptions();
 
-        if (defines.indexOf(" BILLBOARD") === -1) {
-            defines += "\n#define BILLBOARD\n";
-        }
+    //     if (defines.indexOf(" BILLBOARD") === -1) {
+    //         defines += "\n#define BILLBOARD\n";
+    //     }
 
-        if (samplers.indexOf("diffuseSampler") === -1) {
-            samplers.push("diffuseSampler");
-        }
+    //     if (samplers.indexOf("diffuseSampler") === -1) {
+    //         samplers.push("diffuseSampler");
+    //     }
 
-        return this.createEffect(
-            {
-                vertex: "particles",
-                fragmentElement: fragmentName
-            },
-            attributesNamesOrOptions,
-            effectCreationOption.concat(uniformsNames),
-            samplers, defines, fallbacks, onCompiled, onError);
-    }
+    //     return this.createEffect(
+    //         {
+    //             vertex: "particles",
+    //             fragmentElement: fragmentName
+    //         },
+    //         attributesNamesOrOptions,
+    //         effectCreationOption.concat(uniformsNames),
+    //         samplers, defines, fallbacks, onCompiled, onError);
+    // }
 } 

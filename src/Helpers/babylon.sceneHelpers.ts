@@ -54,123 +54,123 @@ module BABYLON {
         createDefaultVRExperience(webVROptions?: VRExperienceHelperOptions): VRExperienceHelper;
     }
 
-    Scene.prototype.createDefaultLight = function(replace = false): void {
-        // Dispose existing light in replace mode.
-        if (replace) {
-            if (this.lights) {
-                for (var i = 0; i < this.lights.length; i++) {
-                    this.lights[i].dispose();
-                }
-            }
-        }
+    // Scene.prototype.createDefaultLight = function(replace = false): void {
+    //     // Dispose existing light in replace mode.
+    //     if (replace) {
+    //         if (this.lights) {
+    //             for (var i = 0; i < this.lights.length; i++) {
+    //                 this.lights[i].dispose();
+    //             }
+    //         }
+    //     }
 
-        // Light
-        if (this.lights.length === 0) {
-            new HemisphericLight("default light", Vector3.Up(), this);
-        }
-    }
+    //     // Light
+    //     if (this.lights.length === 0) {
+    //         new HemisphericLight("default light", Vector3.Up(), this);
+    //     }
+    // }
 
-    Scene.prototype.createDefaultCamera = function(createArcRotateCamera = false, replace = false, attachCameraControls = false): void {
-        // Dispose existing camera in replace mode.
-        if (replace) {
-            if (this.activeCamera) {
-                this.activeCamera.dispose();
-                this.activeCamera = null;
-            }
-        }
+    // Scene.prototype.createDefaultCamera = function(createArcRotateCamera = false, replace = false, attachCameraControls = false): void {
+    //     // Dispose existing camera in replace mode.
+    //     if (replace) {
+    //         if (this.activeCamera) {
+    //             this.activeCamera.dispose();
+    //             this.activeCamera = null;
+    //         }
+    //     }
 
-        // Camera
-        if (!this.activeCamera) {
-            var worldExtends = this.getWorldExtends();
-            var worldSize = worldExtends.max.subtract(worldExtends.min);
-            var worldCenter = worldExtends.min.add(worldSize.scale(0.5));
+    //     // Camera
+    //     if (!this.activeCamera) {
+    //         var worldExtends = this.getWorldExtends();
+    //         var worldSize = worldExtends.max.subtract(worldExtends.min);
+    //         var worldCenter = worldExtends.min.add(worldSize.scale(0.5));
 
-            var camera: TargetCamera;
-            var radius = worldSize.length() * 1.5;
-            // empty scene scenario!
-            if (!isFinite(radius)) {
-                radius = 1;
-                worldCenter.copyFromFloats(0, 0, 0);
-            }
-            if (createArcRotateCamera) {
-                var arcRotateCamera = new ArcRotateCamera("default camera", -(Math.PI / 2), Math.PI / 2, radius, worldCenter, this);
-                arcRotateCamera.lowerRadiusLimit = radius * 0.01;
-                arcRotateCamera.wheelPrecision = 100 / radius;
-                camera = arcRotateCamera;
-            }
-            else {
-                var freeCamera = new FreeCamera("default camera", new Vector3(worldCenter.x, worldCenter.y, -radius), this);
-                freeCamera.setTarget(worldCenter);
-                camera = freeCamera;
-            }
-            camera.minZ = radius * 0.01;
-            camera.maxZ = radius * 1000;
-            camera.speed = radius * 0.2;
-            this.activeCamera = camera;
+    //         var camera: TargetCamera;
+    //         var radius = worldSize.length() * 1.5;
+    //         // empty scene scenario!
+    //         if (!isFinite(radius)) {
+    //             radius = 1;
+    //             worldCenter.copyFromFloats(0, 0, 0);
+    //         }
+    //         if (createArcRotateCamera) {
+    //             var arcRotateCamera = new ArcRotateCamera("default camera", -(Math.PI / 2), Math.PI / 2, radius, worldCenter, this);
+    //             arcRotateCamera.lowerRadiusLimit = radius * 0.01;
+    //             arcRotateCamera.wheelPrecision = 100 / radius;
+    //             camera = arcRotateCamera;
+    //         }
+    //         else {
+    //             var freeCamera = new FreeCamera("default camera", new Vector3(worldCenter.x, worldCenter.y, -radius), this);
+    //             freeCamera.setTarget(worldCenter);
+    //             camera = freeCamera;
+    //         }
+    //         camera.minZ = radius * 0.01;
+    //         camera.maxZ = radius * 1000;
+    //         camera.speed = radius * 0.2;
+    //         this.activeCamera = camera;
 
-            let canvas = this.getEngine().getRenderingCanvas();
-            if (attachCameraControls && canvas) {
-                camera.attachControl(canvas);
-            }
-        }
-    }
+    //         let canvas = this.getEngine().getRenderingCanvas();
+    //         if (attachCameraControls && canvas) {
+    //             camera.attachControl(canvas);
+    //         }
+    //     }
+    // }
 
-    Scene.prototype.createDefaultCameraOrLight = function(createArcRotateCamera = false, replace = false, attachCameraControls = false): void {
-        this.createDefaultLight(replace);
-        this.createDefaultCamera(createArcRotateCamera, replace, attachCameraControls);
-    }
+    // Scene.prototype.createDefaultCameraOrLight = function(createArcRotateCamera = false, replace = false, attachCameraControls = false): void {
+    //     this.createDefaultLight(replace);
+    //     this.createDefaultCamera(createArcRotateCamera, replace, attachCameraControls);
+    // }
 
-    Scene.prototype.createDefaultSkybox = function(environmentTexture?: BaseTexture, pbr = false, scale = 1000, blur = 0, setGlobalEnvTexture = true): Nullable<Mesh> {
+    // Scene.prototype.createDefaultSkybox = function(environmentTexture?: BaseTexture, pbr = false, scale = 1000, blur = 0, setGlobalEnvTexture = true): Nullable<Mesh> {
 
-        if (!environmentTexture) {
-            Tools.Warn("Can not create default skybox without environment texture.");
-            return null;
-        }
+    //     if (!environmentTexture) {
+    //         Tools.Warn("Can not create default skybox without environment texture.");
+    //         return null;
+    //     }
 
-        if (setGlobalEnvTexture) {
-            if (environmentTexture) {
-                this.environmentTexture = environmentTexture;
-            }
-        }
+    //     if (setGlobalEnvTexture) {
+    //         if (environmentTexture) {
+    //             this.environmentTexture = environmentTexture;
+    //         }
+    //     }
 
-        // Skybox
-        var hdrSkybox = Mesh.CreateBox("hdrSkyBox", scale, this);
-        if (pbr) {
-            let hdrSkyboxMaterial = new PBRMaterial("skyBox", this);
-            hdrSkyboxMaterial.backFaceCulling = false;
-            hdrSkyboxMaterial.reflectionTexture = environmentTexture.clone();
-            if (hdrSkyboxMaterial.reflectionTexture) {
-                hdrSkyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
-            }
-            hdrSkyboxMaterial.microSurface = 1.0 - blur;
-            hdrSkyboxMaterial.disableLighting = true;
-            hdrSkyboxMaterial.twoSidedLighting = true;
-            hdrSkybox.infiniteDistance = true;
-            hdrSkybox.material = hdrSkyboxMaterial;
-        }
-        else {
-            let skyboxMaterial = new StandardMaterial("skyBox", this);
-            skyboxMaterial.backFaceCulling = false;
-            skyboxMaterial.reflectionTexture = environmentTexture.clone();
-            if (skyboxMaterial.reflectionTexture) {
-                skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
-            }
-            skyboxMaterial.disableLighting = true;
-            hdrSkybox.infiniteDistance = true;
-            hdrSkybox.material = skyboxMaterial;
-        }
+    //     // Skybox
+    //     var hdrSkybox = Mesh.CreateBox("hdrSkyBox", scale, this);
+    //     if (pbr) {
+    //         let hdrSkyboxMaterial = new PBRMaterial("skyBox", this);
+    //         hdrSkyboxMaterial.backFaceCulling = false;
+    //         hdrSkyboxMaterial.reflectionTexture = environmentTexture.clone();
+    //         if (hdrSkyboxMaterial.reflectionTexture) {
+    //             hdrSkyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
+    //         }
+    //         hdrSkyboxMaterial.microSurface = 1.0 - blur;
+    //         hdrSkyboxMaterial.disableLighting = true;
+    //         hdrSkyboxMaterial.twoSidedLighting = true;
+    //         hdrSkybox.infiniteDistance = true;
+    //         hdrSkybox.material = hdrSkyboxMaterial;
+    //     }
+    //     else {
+    //         let skyboxMaterial = new StandardMaterial("skyBox", this);
+    //         skyboxMaterial.backFaceCulling = false;
+    //         skyboxMaterial.reflectionTexture = environmentTexture.clone();
+    //         if (skyboxMaterial.reflectionTexture) {
+    //             skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
+    //         }
+    //         skyboxMaterial.disableLighting = true;
+    //         hdrSkybox.infiniteDistance = true;
+    //         hdrSkybox.material = skyboxMaterial;
+    //     }
 
-        return hdrSkybox;
-    }
+    //     return hdrSkybox;
+    // }
 
-    Scene.prototype.createDefaultEnvironment = function(options: Partial<IEnvironmentHelperOptions>): Nullable<EnvironmentHelper> {
-        if (EnvironmentHelper) {
-            return new EnvironmentHelper(options, this);
-        }
-        return null;
-    }
+    // Scene.prototype.createDefaultEnvironment = function(options: Partial<IEnvironmentHelperOptions>): Nullable<EnvironmentHelper> {
+    //     if (EnvironmentHelper) {
+    //         return new EnvironmentHelper(options, this);
+    //     }
+    //     return null;
+    // }
 
-    Scene.prototype.createDefaultVRExperience = function(webVROptions: VRExperienceHelperOptions = {}): VRExperienceHelper {
-        return new VRExperienceHelper(this, webVROptions);
-    }
+    // Scene.prototype.createDefaultVRExperience = function(webVROptions: VRExperienceHelperOptions = {}): VRExperienceHelper {
+    //     return new VRExperienceHelper(this, webVROptions);
+    // }
 }

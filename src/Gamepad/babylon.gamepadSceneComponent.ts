@@ -10,40 +10,40 @@ module BABYLON {
         gamepadManager: GamepadManager;
     }
 
-    Object.defineProperty(Scene.prototype, "gamepadManager", {
-        get: function (this:Scene) {
-            if (!this._gamepadManager) {
-                this._gamepadManager = new GamepadManager(this);
-                let component = this._getComponent(SceneComponentConstants.NAME_GAMEPAD) as GamepadSystemSceneComponent;
-                if (!component) {
-                    component = new GamepadSystemSceneComponent(this);
-                    this._addComponent(component);
-                }
-            }
+    // Object.defineProperty(Scene.prototype, "gamepadManager", {
+    //     get: function (this:Scene) {
+    //         if (!this._gamepadManager) {
+    //             this._gamepadManager = new GamepadManager(this);
+    //             let component = this._getComponent(SceneComponentConstants.NAME_GAMEPAD) as GamepadSystemSceneComponent;
+    //             if (!component) {
+    //                 component = new GamepadSystemSceneComponent(this);
+    //                 this._addComponent(component);
+    //             }
+    //         }
 
-            return this._gamepadManager;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    //         return this._gamepadManager;
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
     export interface FreeCameraInputsManager {
         addGamepad(): FreeCameraInputsManager;
     }
     
-    FreeCameraInputsManager.prototype.addGamepad = function(): FreeCameraInputsManager {
-        this.add(new FreeCameraGamepadInput());
-        return this;
-    }
+    // FreeCameraInputsManager.prototype.addGamepad = function(): FreeCameraInputsManager {
+    //     this.add(new FreeCameraGamepadInput());
+    //     return this;
+    // }
 
     export interface ArcRotateCameraInputsManager {
         addGamepad(): ArcRotateCameraInputsManager;
     }
     
-    ArcRotateCameraInputsManager.prototype.addGamepad = function(): ArcRotateCameraInputsManager {
-        this.add(new ArcRotateCameraGamepadInput());
-        return this;
-    }  
+    // ArcRotateCameraInputsManager.prototype.addGamepad = function(): ArcRotateCameraInputsManager {
+    //     this.add(new ArcRotateCameraGamepadInput());
+    //     return this;
+    // }  
 
    /**
      * Defines the gamepad scene component responsible to manage gamepads in a given scene

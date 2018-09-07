@@ -50,37 +50,37 @@
         getLensFlareSystemByID(id: string): Nullable<LensFlareSystem>;
     }
 
-    AbstractScene.prototype.getLensFlareSystemByName = function(name: string): Nullable<LensFlareSystem> {
-        for (var index = 0; index < this.lensFlareSystems.length; index++) {
-            if (this.lensFlareSystems[index].name === name) {
-                return this.lensFlareSystems[index];
-            }
-        }
+    // AbstractScene.prototype.getLensFlareSystemByName = function(name: string): Nullable<LensFlareSystem> {
+    //     for (var index = 0; index < this.lensFlareSystems.length; index++) {
+    //         if (this.lensFlareSystems[index].name === name) {
+    //             return this.lensFlareSystems[index];
+    //         }
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
-    AbstractScene.prototype.getLensFlareSystemByID = function(id: string): Nullable<LensFlareSystem> {
-        for (var index = 0; index < this.lensFlareSystems.length; index++) {
-            if (this.lensFlareSystems[index].id === id) {
-                return this.lensFlareSystems[index];
-            }
-        }
+    // AbstractScene.prototype.getLensFlareSystemByID = function(id: string): Nullable<LensFlareSystem> {
+    //     for (var index = 0; index < this.lensFlareSystems.length; index++) {
+    //         if (this.lensFlareSystems[index].id === id) {
+    //             return this.lensFlareSystems[index];
+    //         }
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
-    AbstractScene.prototype.removeLensFlareSystem = function(toRemove: LensFlareSystem): number {
-        var index = this.lensFlareSystems.indexOf(toRemove);
-        if (index !== -1) {
-            this.lensFlareSystems.splice(index, 1);
-        }
-        return index;
-    }
+    // AbstractScene.prototype.removeLensFlareSystem = function(toRemove: LensFlareSystem): number {
+    //     var index = this.lensFlareSystems.indexOf(toRemove);
+    //     if (index !== -1) {
+    //         this.lensFlareSystems.splice(index, 1);
+    //     }
+    //     return index;
+    // }
 
-    AbstractScene.prototype.addLensFlareSystem = function(newLensFlareSystem: LensFlareSystem): void {
-        this.lensFlareSystems.push(newLensFlareSystem);
-    }
+    // AbstractScene.prototype.addLensFlareSystem = function(newLensFlareSystem: LensFlareSystem): void {
+    //     this.lensFlareSystems.push(newLensFlareSystem);
+    // }
 
     /**
      * Defines the lens flare scene component responsible to manage any lens flares
