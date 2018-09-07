@@ -52,20 +52,20 @@
         showBoundingBox: boolean;
     }
 
-    Object.defineProperty(AbstractMesh.prototype, "showBoundingBox", {
-        get: function (this: AbstractMesh) {
-            return this._showBoundingBox || false;
-        },
-        set: function (this: AbstractMesh, value: boolean) {
-            this._showBoundingBox = value;
-            // Lazyly creates a BB renderer if needed.
-            if (value) {
-                this.getScene().getBoundingBoxRenderer();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
+    // Object.defineProperty(AbstractMesh.prototype, "showBoundingBox", {
+    //     get: function (this: AbstractMesh) {
+    //         return this._showBoundingBox || false;
+    //     },
+    //     set: function (this: AbstractMesh, value: boolean) {
+    //         this._showBoundingBox = value;
+    //         // Lazyly creates a BB renderer if needed.
+    //         if (value) {
+    //             this.getScene().getBoundingBoxRenderer();
+    //         }
+    //     },
+    //     enumerable: true,
+    //     configurable: true
+    // });
 
     export class BoundingBoxRenderer implements ISceneComponent {
         /**
