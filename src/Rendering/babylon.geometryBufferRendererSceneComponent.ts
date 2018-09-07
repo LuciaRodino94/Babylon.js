@@ -21,40 +21,40 @@ module BABYLON {
         disableGeometryBufferRenderer(): void;
     }
 
-    // Object.defineProperty(Scene.prototype, "geometryBufferRenderer", {
-    //     get: function (this:Scene) {
-    //         this._geometryBufferRenderer;
-    //     },
-    //     set: function (this:Scene, value: Nullable<GeometryBufferRenderer>) {
-    //         if (value && value.isSupported) {
-    //             this._geometryBufferRenderer = value;
-    //         };
-    //     },
-    //     enumerable: true,
-    //     configurable: true
-    // });
+    Object.defineProperty(Scene.prototype, "geometryBufferRenderer", {
+        get: function (this:Scene) {
+            this._geometryBufferRenderer;
+        },
+        set: function (this:Scene, value: Nullable<GeometryBufferRenderer>) {
+            if (value && value.isSupported) {
+                this._geometryBufferRenderer = value;
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
 
-    // Scene.prototype.enableGeometryBufferRenderer = function(ratio: number = 1): Nullable<GeometryBufferRenderer> {
-    //     if (this._geometryBufferRenderer) {
-    //         return this._geometryBufferRenderer;
-    //     }
+    Scene.prototype.enableGeometryBufferRenderer = function(ratio: number = 1): Nullable<GeometryBufferRenderer> {
+        if (this._geometryBufferRenderer) {
+            return this._geometryBufferRenderer;
+        }
 
-    //     this._geometryBufferRenderer = new GeometryBufferRenderer(this, ratio);
-    //     if (!this._geometryBufferRenderer.isSupported) {
-    //         this._geometryBufferRenderer = null;
-    //     }
+        this._geometryBufferRenderer = new GeometryBufferRenderer(this, ratio);
+        if (!this._geometryBufferRenderer.isSupported) {
+            this._geometryBufferRenderer = null;
+        }
 
-    //     return this._geometryBufferRenderer;
-    // }
+        return this._geometryBufferRenderer;
+    }
 
-    // Scene.prototype.disableGeometryBufferRenderer = function(): void {
-    //     if (!this._geometryBufferRenderer) {
-    //         return;
-    //     }
+    Scene.prototype.disableGeometryBufferRenderer = function(): void {
+        if (!this._geometryBufferRenderer) {
+            return;
+        }
 
-    //     this._geometryBufferRenderer.dispose();
-    //     this._geometryBufferRenderer = null;
-    // }
+        this._geometryBufferRenderer.dispose();
+        this._geometryBufferRenderer = null;
+    }
 
     /**
      * Defines the Geometry Buffer scene component responsible to manage a G-Buffer usefull

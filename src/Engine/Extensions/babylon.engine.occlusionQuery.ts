@@ -77,237 +77,237 @@ module BABYLON {
         _getTimeQueryAvailability(query: WebGLQuery): any;
     }
 
-    // Engine.prototype.createQuery = function(): WebGLQuery {
-    //     return this._gl.createQuery();
-    // }
+    Engine.prototype.createQuery = function(): WebGLQuery {
+        return this._gl.createQuery();
+    }
 
-    // Engine.prototype.deleteQuery = function(query: WebGLQuery): Engine {
-    //     this._gl.deleteQuery(query);
+    Engine.prototype.deleteQuery = function(query: WebGLQuery): Engine {
+        this._gl.deleteQuery(query);
 
-    //     return this;
-    // }
+        return this;
+    }
 
-    // Engine.prototype.isQueryResultAvailable = function(query: WebGLQuery): boolean {
-    //     return this._gl.getQueryParameter(query, this._gl.QUERY_RESULT_AVAILABLE) as boolean;
-    // }
+    Engine.prototype.isQueryResultAvailable = function(query: WebGLQuery): boolean {
+        return this._gl.getQueryParameter(query, this._gl.QUERY_RESULT_AVAILABLE) as boolean;
+    }
 
-    // Engine.prototype.getQueryResult = function(query: WebGLQuery): number {
-    //     return this._gl.getQueryParameter(query, this._gl.QUERY_RESULT) as number;
-    // }
+    Engine.prototype.getQueryResult = function(query: WebGLQuery): number {
+        return this._gl.getQueryParameter(query, this._gl.QUERY_RESULT) as number;
+    }
 
-    // Engine.prototype.beginOcclusionQuery = function(algorithmType: number, query: WebGLQuery): Engine {
-    //     var glAlgorithm = this._getGlAlgorithmType(algorithmType);
-    //     this._gl.beginQuery(glAlgorithm, query);
+    Engine.prototype.beginOcclusionQuery = function(algorithmType: number, query: WebGLQuery): Engine {
+        var glAlgorithm = this._getGlAlgorithmType(algorithmType);
+        this._gl.beginQuery(glAlgorithm, query);
 
-    //     return this;
-    // }
+        return this;
+    }
 
-    // Engine.prototype.endOcclusionQuery = function(algorithmType: number): Engine {
-    //     var glAlgorithm = this._getGlAlgorithmType(algorithmType);
-    //     this._gl.endQuery(glAlgorithm);
+    Engine.prototype.endOcclusionQuery = function(algorithmType: number): Engine {
+        var glAlgorithm = this._getGlAlgorithmType(algorithmType);
+        this._gl.endQuery(glAlgorithm);
 
-    //     return this;
-    // }
+        return this;
+    }
 
-    // Engine.prototype._createTimeQuery = function(): WebGLQuery {
-    //     let timerQuery = <EXT_disjoint_timer_query>this.getCaps().timerQuery;
+    Engine.prototype._createTimeQuery = function(): WebGLQuery {
+        let timerQuery = <EXT_disjoint_timer_query>this.getCaps().timerQuery;
 
-    //     if (timerQuery.createQueryEXT) {
-    //         return timerQuery.createQueryEXT();
-    //     }
+        if (timerQuery.createQueryEXT) {
+            return timerQuery.createQueryEXT();
+        }
 
-    //     return this.createQuery();
-    // }
+        return this.createQuery();
+    }
 
-    // Engine.prototype._deleteTimeQuery = function(query: WebGLQuery): void {
-    //     let timerQuery = <EXT_disjoint_timer_query>this.getCaps().timerQuery;
+    Engine.prototype._deleteTimeQuery = function(query: WebGLQuery): void {
+        let timerQuery = <EXT_disjoint_timer_query>this.getCaps().timerQuery;
 
-    //     if (timerQuery.deleteQueryEXT) {
-    //         timerQuery.deleteQueryEXT(query);
-    //         return;
-    //     }
+        if (timerQuery.deleteQueryEXT) {
+            timerQuery.deleteQueryEXT(query);
+            return;
+        }
 
-    //     this.deleteQuery(query);
-    // }
+        this.deleteQuery(query);
+    }
 
-    // Engine.prototype._getTimeQueryResult = function(query: WebGLQuery): any {
-    //     let timerQuery = <EXT_disjoint_timer_query>this.getCaps().timerQuery;
+    Engine.prototype._getTimeQueryResult = function(query: WebGLQuery): any {
+        let timerQuery = <EXT_disjoint_timer_query>this.getCaps().timerQuery;
 
-    //     if (timerQuery.getQueryObjectEXT) {
-    //         return timerQuery.getQueryObjectEXT(query, timerQuery.QUERY_RESULT_EXT);
-    //     }
-    //     return this.getQueryResult(query);
-    // }
+        if (timerQuery.getQueryObjectEXT) {
+            return timerQuery.getQueryObjectEXT(query, timerQuery.QUERY_RESULT_EXT);
+        }
+        return this.getQueryResult(query);
+    }
 
-    // Engine.prototype._getTimeQueryAvailability = function(query: WebGLQuery): any {
-    //     let timerQuery = <EXT_disjoint_timer_query>this.getCaps().timerQuery;
+    Engine.prototype._getTimeQueryAvailability = function(query: WebGLQuery): any {
+        let timerQuery = <EXT_disjoint_timer_query>this.getCaps().timerQuery;
 
-    //     if (timerQuery.getQueryObjectEXT) {
-    //         return timerQuery.getQueryObjectEXT(query, timerQuery.QUERY_RESULT_AVAILABLE_EXT);
-    //     }
-    //     return this.isQueryResultAvailable(query);
-    // }
+        if (timerQuery.getQueryObjectEXT) {
+            return timerQuery.getQueryObjectEXT(query, timerQuery.QUERY_RESULT_AVAILABLE_EXT);
+        }
+        return this.isQueryResultAvailable(query);
+    }
 
-    // Engine.prototype.startTimeQuery = function(): Nullable<_TimeToken> {
-    //     let caps = this.getCaps();
-    //     let timerQuery = caps.timerQuery;
-    //     if (!timerQuery) {
-    //         return null;
-    //     }
+    Engine.prototype.startTimeQuery = function(): Nullable<_TimeToken> {
+        let caps = this.getCaps();
+        let timerQuery = caps.timerQuery;
+        if (!timerQuery) {
+            return null;
+        }
 
-    //     let token = new _TimeToken();
-    //     this._gl.getParameter(timerQuery.GPU_DISJOINT_EXT);
-    //     if (caps.canUseTimestampForTimerQuery) {
-    //         token._startTimeQuery = this._createTimeQuery();
+        let token = new _TimeToken();
+        this._gl.getParameter(timerQuery.GPU_DISJOINT_EXT);
+        if (caps.canUseTimestampForTimerQuery) {
+            token._startTimeQuery = this._createTimeQuery();
 
-    //         timerQuery.queryCounterEXT(token._startTimeQuery, timerQuery.TIMESTAMP_EXT);
-    //     } else {
-    //         if (this._currentNonTimestampToken) {
-    //             return this._currentNonTimestampToken;
-    //         }
+            timerQuery.queryCounterEXT(token._startTimeQuery, timerQuery.TIMESTAMP_EXT);
+        } else {
+            if (this._currentNonTimestampToken) {
+                return this._currentNonTimestampToken;
+            }
 
-    //         token._timeElapsedQuery = this._createTimeQuery();
-    //         if (timerQuery.beginQueryEXT) {
-    //             timerQuery.beginQueryEXT(timerQuery.TIME_ELAPSED_EXT, token._timeElapsedQuery);
-    //         } else {
-    //             this._gl.beginQuery(timerQuery.TIME_ELAPSED_EXT, token._timeElapsedQuery);
-    //         }
+            token._timeElapsedQuery = this._createTimeQuery();
+            if (timerQuery.beginQueryEXT) {
+                timerQuery.beginQueryEXT(timerQuery.TIME_ELAPSED_EXT, token._timeElapsedQuery);
+            } else {
+                this._gl.beginQuery(timerQuery.TIME_ELAPSED_EXT, token._timeElapsedQuery);
+            }
 
-    //         this._currentNonTimestampToken = token;
-    //     }
-    //     return token;
-    // }
+            this._currentNonTimestampToken = token;
+        }
+        return token;
+    }
 
-    // Engine.prototype.endTimeQuery = function(token: _TimeToken): int {
-    //     let caps = this.getCaps();
-    //     let timerQuery = caps.timerQuery;
-    //     if (!timerQuery || !token) {
-    //         return -1;
-    //     }
+    Engine.prototype.endTimeQuery = function(token: _TimeToken): int {
+        let caps = this.getCaps();
+        let timerQuery = caps.timerQuery;
+        if (!timerQuery || !token) {
+            return -1;
+        }
 
-    //     if (caps.canUseTimestampForTimerQuery) {
-    //         if (!token._startTimeQuery) {
-    //             return -1;
-    //         }
-    //         if (!token._endTimeQuery) {
-    //             token._endTimeQuery = this._createTimeQuery();
-    //             timerQuery.queryCounterEXT(token._endTimeQuery, timerQuery.TIMESTAMP_EXT);
-    //         }
-    //     } else if (!token._timeElapsedQueryEnded) {
-    //         if (!token._timeElapsedQuery) {
-    //             return -1;
-    //         }
-    //         if (timerQuery.endQueryEXT) {
-    //             timerQuery.endQueryEXT(timerQuery.TIME_ELAPSED_EXT);
-    //         } else {
-    //             this._gl.endQuery(timerQuery.TIME_ELAPSED_EXT);
-    //         }
-    //         token._timeElapsedQueryEnded = true;
-    //     }
+        if (caps.canUseTimestampForTimerQuery) {
+            if (!token._startTimeQuery) {
+                return -1;
+            }
+            if (!token._endTimeQuery) {
+                token._endTimeQuery = this._createTimeQuery();
+                timerQuery.queryCounterEXT(token._endTimeQuery, timerQuery.TIMESTAMP_EXT);
+            }
+        } else if (!token._timeElapsedQueryEnded) {
+            if (!token._timeElapsedQuery) {
+                return -1;
+            }
+            if (timerQuery.endQueryEXT) {
+                timerQuery.endQueryEXT(timerQuery.TIME_ELAPSED_EXT);
+            } else {
+                this._gl.endQuery(timerQuery.TIME_ELAPSED_EXT);
+            }
+            token._timeElapsedQueryEnded = true;
+        }
 
-    //     let disjoint = this._gl.getParameter(timerQuery.GPU_DISJOINT_EXT);
-    //     let available: boolean = false;
-    //     if (token._endTimeQuery) {
-    //         available = this._getTimeQueryAvailability(token._endTimeQuery);
-    //     } else if (token._timeElapsedQuery) {
-    //         available = this._getTimeQueryAvailability(token._timeElapsedQuery);
-    //     }
+        let disjoint = this._gl.getParameter(timerQuery.GPU_DISJOINT_EXT);
+        let available: boolean = false;
+        if (token._endTimeQuery) {
+            available = this._getTimeQueryAvailability(token._endTimeQuery);
+        } else if (token._timeElapsedQuery) {
+            available = this._getTimeQueryAvailability(token._timeElapsedQuery);
+        }
 
-    //     if (available && !disjoint) {
-    //         let result = 0;
-    //         if (caps.canUseTimestampForTimerQuery) {
-    //             if (!token._startTimeQuery || !token._endTimeQuery) {
-    //                 return -1;
-    //             }
-    //             let timeStart = this._getTimeQueryResult(token._startTimeQuery);
-    //             let timeEnd = this._getTimeQueryResult(token._endTimeQuery);
+        if (available && !disjoint) {
+            let result = 0;
+            if (caps.canUseTimestampForTimerQuery) {
+                if (!token._startTimeQuery || !token._endTimeQuery) {
+                    return -1;
+                }
+                let timeStart = this._getTimeQueryResult(token._startTimeQuery);
+                let timeEnd = this._getTimeQueryResult(token._endTimeQuery);
 
-    //             result = timeEnd - timeStart;
-    //             this._deleteTimeQuery(token._startTimeQuery);
-    //             this._deleteTimeQuery(token._endTimeQuery);
-    //             token._startTimeQuery = null;
-    //             token._endTimeQuery = null;
-    //         } else {
-    //             if (!token._timeElapsedQuery) {
-    //                 return -1;
-    //             }
+                result = timeEnd - timeStart;
+                this._deleteTimeQuery(token._startTimeQuery);
+                this._deleteTimeQuery(token._endTimeQuery);
+                token._startTimeQuery = null;
+                token._endTimeQuery = null;
+            } else {
+                if (!token._timeElapsedQuery) {
+                    return -1;
+                }
 
-    //             result = this._getTimeQueryResult(token._timeElapsedQuery);
-    //             this._deleteTimeQuery(token._timeElapsedQuery);
-    //             token._timeElapsedQuery = null;
-    //             token._timeElapsedQueryEnded = false;
-    //             this._currentNonTimestampToken = null;
-    //         }
-    //         return result;
-    //     }
+                result = this._getTimeQueryResult(token._timeElapsedQuery);
+                this._deleteTimeQuery(token._timeElapsedQuery);
+                token._timeElapsedQuery = null;
+                token._timeElapsedQueryEnded = false;
+                this._currentNonTimestampToken = null;
+            }
+            return result;
+        }
 
-    //     return -1;
-    // }
+        return -1;
+    }
 
-    // Engine.prototype._getGlAlgorithmType = function(algorithmType: number): number {
-    //     return algorithmType === AbstractMesh.OCCLUSION_ALGORITHM_TYPE_CONSERVATIVE ? this._gl.ANY_SAMPLES_PASSED_CONSERVATIVE : this._gl.ANY_SAMPLES_PASSED;
-    // }
+    Engine.prototype._getGlAlgorithmType = function(algorithmType: number): number {
+        return algorithmType === AbstractMesh.OCCLUSION_ALGORITHM_TYPE_CONSERVATIVE ? this._gl.ANY_SAMPLES_PASSED_CONSERVATIVE : this._gl.ANY_SAMPLES_PASSED;
+    }
 
-    // // We also need to update AbstractMesh as there is a portion of the code there
-    // AbstractMesh.prototype._checkOcclusionQuery = function() {
-    //     if (this.occlusionType === AbstractMesh.OCCLUSION_TYPE_NONE) {
-    //         this._isOccluded = false;
-    //         return;
-    //     }
+    // We also need to update AbstractMesh as there is a portion of the code there
+    AbstractMesh.prototype._checkOcclusionQuery = function() {
+        if (this.occlusionType === AbstractMesh.OCCLUSION_TYPE_NONE) {
+            this._isOccluded = false;
+            return;
+        }
 
-    //     var engine = this.getEngine();
+        var engine = this.getEngine();
 
-    //     if (engine.webGLVersion < 2) {
-    //         this._isOccluded = false;
-    //         return;
-    //     }
+        if (engine.webGLVersion < 2) {
+            this._isOccluded = false;
+            return;
+        }
 
-    //     if (!engine.isQueryResultAvailable) { // Occlusion query where not referenced
-    //         this._isOccluded = false;
-    //         return;
-    //     }
+        if (!engine.isQueryResultAvailable) { // Occlusion query where not referenced
+            this._isOccluded = false;
+            return;
+        }
 
-    //     if (this.isOcclusionQueryInProgress && this._occlusionQuery) {
+        if (this.isOcclusionQueryInProgress && this._occlusionQuery) {
 
-    //         var isOcclusionQueryAvailable = engine.isQueryResultAvailable(this._occlusionQuery);
-    //         if (isOcclusionQueryAvailable) {
-    //             var occlusionQueryResult = engine.getQueryResult(this._occlusionQuery);
+            var isOcclusionQueryAvailable = engine.isQueryResultAvailable(this._occlusionQuery);
+            if (isOcclusionQueryAvailable) {
+                var occlusionQueryResult = engine.getQueryResult(this._occlusionQuery);
 
-    //             this._isOcclusionQueryInProgress = false;
-    //             this._occlusionInternalRetryCounter = 0;
-    //             this._isOccluded = occlusionQueryResult === 1 ? false : true;
-    //         }
-    //         else {
+                this._isOcclusionQueryInProgress = false;
+                this._occlusionInternalRetryCounter = 0;
+                this._isOccluded = occlusionQueryResult === 1 ? false : true;
+            }
+            else {
 
-    //             this._occlusionInternalRetryCounter++;
+                this._occlusionInternalRetryCounter++;
 
-    //             if (this.occlusionRetryCount !== -1 && this._occlusionInternalRetryCounter > this.occlusionRetryCount) {
-    //                 this._isOcclusionQueryInProgress = false;
-    //                 this._occlusionInternalRetryCounter = 0;
+                if (this.occlusionRetryCount !== -1 && this._occlusionInternalRetryCounter > this.occlusionRetryCount) {
+                    this._isOcclusionQueryInProgress = false;
+                    this._occlusionInternalRetryCounter = 0;
 
-    //                 // if optimistic set isOccluded to false regardless of the status of isOccluded. (Render in the current render loop)
-    //                 // if strict continue the last state of the object.
-    //                 this._isOccluded = this.occlusionType === AbstractMesh.OCCLUSION_TYPE_OPTIMISTIC ? false : this._isOccluded;
-    //             }
-    //             else {
-    //                 return;
-    //             }
+                    // if optimistic set isOccluded to false regardless of the status of isOccluded. (Render in the current render loop)
+                    // if strict continue the last state of the object.
+                    this._isOccluded = this.occlusionType === AbstractMesh.OCCLUSION_TYPE_OPTIMISTIC ? false : this._isOccluded;
+                }
+                else {
+                    return;
+                }
 
-    //         }
-    //     }
+            }
+        }
 
-    //     var scene = this.getScene();
-    //     if (scene.getBoundingBoxRenderer) {
-    //     var occlusionBoundingBoxRenderer = scene.getBoundingBoxRenderer();
+        var scene = this.getScene();
+        if (scene.getBoundingBoxRenderer) {
+        var occlusionBoundingBoxRenderer = scene.getBoundingBoxRenderer();
 
-    //         if (!this._occlusionQuery) {
-    //             this._occlusionQuery = engine.createQuery();
-    //         }
+            if (!this._occlusionQuery) {
+                this._occlusionQuery = engine.createQuery();
+            }
 
-    //         engine.beginOcclusionQuery(this.occlusionQueryAlgorithmType, this._occlusionQuery);
-    //         occlusionBoundingBoxRenderer.renderOcclusionBoundingBox(this);
-    //         engine.endOcclusionQuery(this.occlusionQueryAlgorithmType);
-    //         this._isOcclusionQueryInProgress = true;
-    //     }
-    // } 
+            engine.beginOcclusionQuery(this.occlusionQueryAlgorithmType, this._occlusionQuery);
+            occlusionBoundingBoxRenderer.renderOcclusionBoundingBox(this);
+            engine.endOcclusionQuery(this.occlusionQueryAlgorithmType);
+            this._isOcclusionQueryInProgress = true;
+        }
+    } 
 }

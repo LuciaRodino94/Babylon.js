@@ -35,18 +35,18 @@
         addEffectLayer(newEffectLayer: EffectLayer): void;
     }
 
-    // AbstractScene.prototype.removeEffectLayer = function(toRemove: EffectLayer): number {
-    //     var index = this.effectLayers.indexOf(toRemove);
-    //     if (index !== -1) {
-    //         this.effectLayers.splice(index, 1);
-    //     }
+    AbstractScene.prototype.removeEffectLayer = function(toRemove: EffectLayer): number {
+        var index = this.effectLayers.indexOf(toRemove);
+        if (index !== -1) {
+            this.effectLayers.splice(index, 1);
+        }
 
-    //     return index;
-    // }
+        return index;
+    }
 
-    // AbstractScene.prototype.addEffectLayer = function(newEffectLayer: EffectLayer): void {
-    //     this.effectLayers.push(newEffectLayer);
-    // }
+    AbstractScene.prototype.addEffectLayer = function(newEffectLayer: EffectLayer): void {
+        this.effectLayers.push(newEffectLayer);
+    }
 
     /**
      * Defines the layer scene component responsible to manage any effect layers

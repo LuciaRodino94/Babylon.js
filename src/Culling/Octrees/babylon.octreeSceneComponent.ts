@@ -22,32 +22,32 @@
         createOrUpdateSelectionOctree(maxCapacity?: number, maxDepth?: number): Octree<AbstractMesh>;
     }
 
-//     Scene.prototype.createOrUpdateSelectionOctree = function(maxCapacity = 64, maxDepth = 2): Octree<AbstractMesh> {
-//         let component = this._getComponent(SceneComponentConstants.NAME_OCTREE);
-//         if (!component) {
-//             component = new OctreeSceneComponent(this);
-//             this._addComponent(component);
-//         }
+    Scene.prototype.createOrUpdateSelectionOctree = function(maxCapacity = 64, maxDepth = 2): Octree<AbstractMesh> {
+        let component = this._getComponent(SceneComponentConstants.NAME_OCTREE);
+        if (!component) {
+            component = new OctreeSceneComponent(this);
+            this._addComponent(component);
+        }
         
-//         if (!this._selectionOctree) {
-//             this._selectionOctree = new Octree<AbstractMesh>(Octree.CreationFuncForMeshes, maxCapacity, maxDepth);
-//         }
+        if (!this._selectionOctree) {
+            this._selectionOctree = new Octree<AbstractMesh>(Octree.CreationFuncForMeshes, maxCapacity, maxDepth);
+        }
 
-//         var worldExtends = this.getWorldExtends();
+        var worldExtends = this.getWorldExtends();
 
-//         // Update octree
-//         this._selectionOctree.update(worldExtends.min, worldExtends.max, this.meshes);
+        // Update octree
+        this._selectionOctree.update(worldExtends.min, worldExtends.max, this.meshes);
 
-//         return this._selectionOctree;
-//    }
+        return this._selectionOctree;
+   }
 
-//     Object.defineProperty(Scene.prototype, "selectionOctree", {
-//         get: function (this:Scene) {
-//             return this._selectionOctree;
-//         },
-//         enumerable: true,
-//         configurable: true
-//     });
+    Object.defineProperty(Scene.prototype, "selectionOctree", {
+        get: function (this:Scene) {
+            return this._selectionOctree;
+        },
+        enumerable: true,
+        configurable: true
+    });
 
     export interface AbstractMesh {
         /** 

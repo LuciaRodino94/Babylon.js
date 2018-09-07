@@ -62,87 +62,87 @@
         getPointerOverSprite(): Nullable<Sprite>;
     }
 
-    // Scene.prototype._internalPickSprites = function(ray: Ray, predicate?: (sprite: Sprite) => boolean, fastCheck?: boolean, camera?: Camera): Nullable<PickingInfo> {
-    //     if (!PickingInfo) {
-    //         return null;
-    //     }
+    Scene.prototype._internalPickSprites = function(ray: Ray, predicate?: (sprite: Sprite) => boolean, fastCheck?: boolean, camera?: Camera): Nullable<PickingInfo> {
+        if (!PickingInfo) {
+            return null;
+        }
 
-    //     var pickingInfo = null;
+        var pickingInfo = null;
 
-    //     if (!camera) {
-    //         if (!this.activeCamera) {
-    //             return null;
-    //         }
-    //         camera = this.activeCamera;
-    //     }
+        if (!camera) {
+            if (!this.activeCamera) {
+                return null;
+            }
+            camera = this.activeCamera;
+        }
 
-    //     if (this.spriteManagers.length > 0) {
-    //         for (var spriteIndex = 0; spriteIndex < this.spriteManagers.length; spriteIndex++) {
-    //             var spriteManager = this.spriteManagers[spriteIndex];
+        if (this.spriteManagers.length > 0) {
+            for (var spriteIndex = 0; spriteIndex < this.spriteManagers.length; spriteIndex++) {
+                var spriteManager = this.spriteManagers[spriteIndex];
 
-    //             if (!spriteManager.isPickable) {
-    //                 continue;
-    //             }
+                if (!spriteManager.isPickable) {
+                    continue;
+                }
 
-    //             var result = spriteManager.intersects(ray, camera, predicate, fastCheck);
-    //             if (!result || !result.hit)
-    //                 continue;
+                var result = spriteManager.intersects(ray, camera, predicate, fastCheck);
+                if (!result || !result.hit)
+                    continue;
 
-    //             if (!fastCheck && pickingInfo != null && result.distance >= pickingInfo.distance)
-    //                 continue;
+                if (!fastCheck && pickingInfo != null && result.distance >= pickingInfo.distance)
+                    continue;
 
-    //             pickingInfo = result;
+                pickingInfo = result;
 
-    //             if (fastCheck) {
-    //                 break;
-    //             }
-    //         }
-    //     }
+                if (fastCheck) {
+                    break;
+                }
+            }
+        }
 
-    //     return pickingInfo || new PickingInfo();
-    // }
+        return pickingInfo || new PickingInfo();
+    }
 
-    // Scene.prototype.pickSprite = function(x: number, y: number, predicate?: (sprite: Sprite) => boolean, fastCheck?: boolean, camera?: Camera): Nullable<PickingInfo> {
-    //     this.createPickingRayInCameraSpaceToRef(x, y, this._tempSpritePickingRay!, camera);
+    Scene.prototype.pickSprite = function(x: number, y: number, predicate?: (sprite: Sprite) => boolean, fastCheck?: boolean, camera?: Camera): Nullable<PickingInfo> {
+        this.createPickingRayInCameraSpaceToRef(x, y, this._tempSpritePickingRay!, camera);
 
-    //     return this._internalPickSprites(this._tempSpritePickingRay!, predicate, fastCheck, camera);
-    // }
+        return this._internalPickSprites(this._tempSpritePickingRay!, predicate, fastCheck, camera);
+    }
 
-    // Scene.prototype.pickSpriteWithRay = function(ray: Ray, predicate?: (sprite: Sprite) => boolean, fastCheck?: boolean, camera?: Camera): Nullable<PickingInfo> {
-    //     if (!this._tempSpritePickingRay) {
-    //         return null;
-    //     }
+    Scene.prototype.pickSpriteWithRay = function(ray: Ray, predicate?: (sprite: Sprite) => boolean, fastCheck?: boolean, camera?: Camera): Nullable<PickingInfo> {
+        if (!this._tempSpritePickingRay) {
+            return null;
+        }
 
-    //     if (!camera) {
-    //         if (!this.activeCamera) {
-    //             return null;
-    //         }
-    //         camera = this.activeCamera;
-    //     }
+        if (!camera) {
+            if (!this.activeCamera) {
+                return null;
+            }
+            camera = this.activeCamera;
+        }
 
-    //     Ray.TransformToRef(ray, camera.getViewMatrix(), this._tempSpritePickingRay);
+        Ray.TransformToRef(ray, camera.getViewMatrix(), this._tempSpritePickingRay);
 
-    //     return this._internalPickSprites(this._tempSpritePickingRay, predicate, fastCheck, camera);
-    // }
+        return this._internalPickSprites(this._tempSpritePickingRay, predicate, fastCheck, camera);
+    }
 
-    // Scene.prototype.setPointerOverSprite = function(sprite: Nullable<Sprite>): void {
-    //     if (this._pointerOverSprite === sprite) {
-    //         return;
-    //     }
+    Scene.prototype.setPointerOverSprite = function(sprite: Nullable<Sprite>): void {
+        if (this._pointerOverSprite === sprite) {
+            return;
+        }
 
-    //     if (this._pointerOverSprite && this._pointerOverSprite.actionManager) {
-    //         this._pointerOverSprite.actionManager.processTrigger(ActionManager.OnPointerOutTrigger, ActionEvent.CreateNewFromSprite(this._pointerOverSprite, this));
-    //     }
+        if (this._pointerOverSprite && this._pointerOverSprite.actionManager) {
+            this._pointerOverSprite.actionManager.processTrigger(ActionManager.OnPointerOutTrigger, ActionEvent.CreateNewFromSprite(this._pointerOverSprite, this));
+        }
 
-    //     this._pointerOverSprite = sprite;
-    //     if (this._pointerOverSprite && this._pointerOverSprite.actionManager) {
-    //         this._pointerOverSprite.actionManager.processTrigger(ActionManager.OnPointerOverTrigger, ActionEvent.CreateNewFromSprite(this._pointerOverSprite, this));
-    //     }
-    // }
+        this._pointerOverSprite = sprite;
+        if (this._pointerOverSprite && this._pointerOverSprite.actionManager) {
+            this._pointerOverSprite.actionManager.processTrigger(ActionManager.OnPointerOverTrigger, ActionEvent.CreateNewFromSprite(this._pointerOverSprite, this));
+        }
+    }
 
-    // Scene.prototype.getPointerOverSprite = function(): Nullable<Sprite> {
-    //     return this._pointerOverSprite;
-    // }
+    Scene.prototype.getPointerOverSprite = function(): Nullable<Sprite> {
+        return this._pointerOverSprite;
+    }
 
     /**
      * Defines the sprite scene component responsible to manage sprites
