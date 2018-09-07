@@ -88,13 +88,9 @@
          * @param strategy defines the strategy to use for the culling (default is BABYLON.Scene.CULLINGSTRATEGY_STANDARD)
          * @returns true if the bounding info is in the frustum planes 
          */        
-        public isInFrustum(frustumPlanes: Plane[], strategy: number = AbstractMesh.CULLINGSTRATEGY_STANDARD): boolean {
+        public isInFrustum(frustumPlanes: Plane[]): boolean {
             if (!this.boundingSphere.isInFrustum(frustumPlanes)) {
                 return false;
-            }
-
-            if (strategy === AbstractMesh.CULLINGSTRATEGY_BOUNDINGSPHERE_ONLY) {
-                return true;
             }
             return this.boundingBox.isInFrustum(frustumPlanes);
         }

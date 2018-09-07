@@ -1769,8 +1769,8 @@
             var program: any = null;
             if (this.customShader != null) {
                 program = this.customShader;
-                var defines: string = (program.shaderOptions.defines.length > 0) ? program.shaderOptions.defines.join("\n") : "";
-                custom = this._scene.getEngine().createEffectForParticles(program.shaderPath.fragmentElement, program.shaderOptions.uniforms, program.shaderOptions.samplers, defines);
+             //   var defines: string = (program.shaderOptions.defines.length > 0) ? program.shaderOptions.defines.join("\n") : "";
+                //custom = this._scene.getEngine().createEffectForParticles(program.shaderPath.fragmentElement, program.shaderOptions.uniforms, program.shaderOptions.samplers, defines);
             } else if (this._customEffect) {
                 custom = this._customEffect;
             }
@@ -2131,10 +2131,6 @@
                 serializationObject.limitVelocityDamping = particleSystem.limitVelocityDamping;
             }
 
-            if (ProceduralTexture && particleSystem.noiseTexture && particleSystem.noiseTexture instanceof ProceduralTexture) {
-                const noiseTexture = particleSystem.noiseTexture as ProceduralTexture;
-                serializationObject.noiseTexture = noiseTexture.serialize();
-            }
         }
 
         /** @hidden */
@@ -2290,7 +2286,6 @@
             }
 
             if (parsedParticleSystem.noiseTexture) {
-                particleSystem.noiseTexture = ProceduralTexture.Parse(parsedParticleSystem.noiseTexture, scene, rootUrl);
             }
 
             // Emitter
@@ -2342,8 +2337,8 @@
             var program: any = null;
             if (parsedParticleSystem.customShader) {
                 program = parsedParticleSystem.customShader;
-                var defines: string = (program.shaderOptions.defines.length > 0) ? program.shaderOptions.defines.join("\n") : "";
-                custom = scene.getEngine().createEffectForParticles(program.shaderPath.fragmentElement, program.shaderOptions.uniforms, program.shaderOptions.samplers, defines);
+               // var defines: string = (program.shaderOptions.defines.length > 0) ? program.shaderOptions.defines.join("\n") : "";
+            //    custom = scene.getEngine().createEffectForParticles(program.shaderPath.fragmentElement, program.shaderOptions.uniforms, program.shaderOptions.samplers, defines);
             }
             var particleSystem = new ParticleSystem(name, parsedParticleSystem.capacity, scene, custom, parsedParticleSystem.isAnimationSheetEnabled);
             particleSystem.customShader = program;

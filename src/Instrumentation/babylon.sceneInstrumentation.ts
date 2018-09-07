@@ -49,9 +49,6 @@ module BABYLON {
         private _onBeforeParticlesRenderingObserver: Nullable<Observer<Scene>> = null;
         private _onAfterParticlesRenderingObserver: Nullable<Observer<Scene>> = null;
 
-        private _onBeforeSpritesRenderingObserver: Nullable<Observer<Scene>> = null;
-        private _onAfterSpritesRenderingObserver: Nullable<Observer<Scene>> = null;
-
         private _onBeforePhysicsObserver: Nullable<Observer<Scene>> = null;
         private _onAfterPhysicsObserver: Nullable<Observer<Scene>> = null;
 
@@ -214,27 +211,6 @@ module BABYLON {
 
             this._captureSpritesRenderTime = value;
 
-            if (!this.scene.spriteManagers) {
-                return;
-            }
-
-            if (value) {
-                this._onBeforeSpritesRenderingObserver = this.scene.onBeforeSpritesRenderingObservable.add(() => {
-                    Tools.StartPerformanceCounter("Sprites");
-                    this._spritesRenderTime.beginMonitoring();
-                });
-
-                this._onAfterSpritesRenderingObserver = this.scene.onAfterSpritesRenderingObservable.add(() => {
-                    Tools.EndPerformanceCounter("Sprites");
-                    this._spritesRenderTime.endMonitoring(false);
-                });
-            } else {
-                this.scene.onBeforeSpritesRenderingObservable.remove(this._onBeforeSpritesRenderingObserver);
-                this._onBeforeSpritesRenderingObserver = null;
-
-                this.scene.onAfterSpritesRenderingObservable.remove(this._onAfterSpritesRenderingObserver);
-                this._onAfterSpritesRenderingObserver = null;
-            }
         }
 
         /**
@@ -532,12 +508,6 @@ module BABYLON {
 
             this.scene.onAfterParticlesRenderingObservable.remove(this._onAfterParticlesRenderingObserver);
             this._onAfterParticlesRenderingObserver = null;
-
-            this.scene.onBeforeSpritesRenderingObservable.remove(this._onBeforeSpritesRenderingObserver);
-            this._onBeforeSpritesRenderingObserver = null;
-
-            this.scene.onAfterSpritesRenderingObservable.remove(this._onAfterSpritesRenderingObserver);
-            this._onAfterSpritesRenderingObserver = null;
 
             this.scene.onBeforeDrawPhaseObservable.remove(this._onBeforeDrawPhaseObserver);
             this._onBeforeDrawPhaseObserver = null;

@@ -82,11 +82,7 @@
 
             this._scene = scene;
 
-            // Set up assets
-            this._createRandomTexture();
-            this._depthTexture = scene.enableDepthRenderer().getDepthMap(); // Force depth renderer "on"
-
-            var ssaoRatio = ratio.ssaoRatio || ratio;
+              var ssaoRatio = ratio.ssaoRatio || ratio;
             var combineRatio = ratio.combineRatio || ratio;
 
             this._originalColorPostProcess = new PassPostProcess("SSAOOriginalSceneColor", combineRatio, null, Texture.BILINEAR_SAMPLINGMODE, scene.getEngine(), false);
@@ -103,9 +99,6 @@
             this.addEffect(new PostProcessRenderEffect(scene.getEngine(), this.SSAOCombineRenderEffect, () => { return this._ssaoCombinePostProcess; }, true));
 
             // Finish
-            scene.postProcessRenderPipelineManager.addPipeline(this);
-            if (cameras)
-                scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(name, cameras);
         }
 
         // Public Methods
@@ -126,10 +119,7 @@
 
             this._randomTexture.dispose();
 
-            if (disableDepthRender)
-                this._scene.disableDepthRenderer();
-
-            this._scene.postProcessRenderPipelineManager.detachCamerasFromRenderPipeline(this._name, this._scene.cameras);
+        
 
             super.dispose();
         }
@@ -217,35 +207,6 @@
                 effect.setVector4("viewport", Tmp.Vector4[0].copyFromFloats(0, 0, 1.0, 1.0));
                 effect.setTextureFromPostProcess("originalColor", this._originalColorPostProcess);
             };
-        }
-
-        private _createRandomTexture(): void {
-            var size = 512;
-
-            this._randomTexture = new DynamicTexture("SSAORandomTexture", size, this._scene, false, Texture.TRILINEAR_SAMPLINGMODE);
-            this._randomTexture.wrapU = Texture.WRAP_ADDRESSMODE;
-            this._randomTexture.wrapV = Texture.WRAP_ADDRESSMODE;
-
-            var context = this._randomTexture.getContext();
-
-            var rand = (min: number, max: number) => {
-                return Math.random() * (max - min) + min;
-            }
-
-            var randVector = Vector3.Zero();
-
-            for (var x = 0; x < size; x++) {
-                for (var y = 0; y < size; y++) {
-                    randVector.x = Math.floor(rand(-1.0, 1.0) * 255);
-                    randVector.y = Math.floor(rand(-1.0, 1.0) * 255);
-                    randVector.z = Math.floor(rand(-1.0, 1.0) * 255);
-
-                    context.fillStyle = 'rgb(' + randVector.x + ', ' + randVector.y + ', ' + randVector.z + ')';
-                    context.fillRect(x, y, 1, 1);
-                }
-            }
-
-            this._randomTexture.update(false);
         }
     }
 }

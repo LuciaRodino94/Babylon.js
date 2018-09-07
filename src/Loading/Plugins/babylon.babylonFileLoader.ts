@@ -658,9 +658,9 @@
                         scene.environmentTexture = cubeTexture;                        
                     }
                     if (parsedData.createDefaultSkybox === true) {
-                        var skyboxScale = (scene.activeCamera !== undefined && scene.activeCamera !== null) ? (scene.activeCamera.maxZ - scene.activeCamera.minZ) / 2 : 1000;
-                        var skyboxBlurLevel = parsedData.skyboxBlurLevel || 0;
-                        scene.createDefaultSkybox(undefined, true, skyboxScale, skyboxBlurLevel);
+                      //  var skyboxScale = (scene.activeCamera !== undefined && scene.activeCamera !== null) ? (scene.activeCamera.maxZ - scene.activeCamera.minZ) / 2 : 1000;
+                       // var skyboxBlurLevel = parsedData.skyboxBlurLevel || 0;
+                       // scene.createDefaultSkybox(undefined, true, skyboxScale, skyboxBlurLevel);
                     }
                 }
                 // Finish

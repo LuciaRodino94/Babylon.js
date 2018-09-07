@@ -71,9 +71,6 @@ module BABYLON {
                 this.scene.addTexture(o);
             });
 
-            for (let component of this.scene._serializableComponents) {
-                component.addFromContainer(this.scene);
-            }
         }
 
         /**
@@ -124,10 +121,6 @@ module BABYLON {
             this.textures.forEach((o) => {
                 this.scene.removeTexture(o);
             });
-
-            for (let component of this.scene._serializableComponents) {
-                component.removeFromContainer(this.scene);
-            }
         }
 
         private _moveAssets<T>(sourceAssets: T[], targetAssets: T[], keepAssets: T[]): void {

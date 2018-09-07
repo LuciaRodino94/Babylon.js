@@ -335,13 +335,6 @@
                 return;
             }
 
-            if (enabled) {
-                var geometry = this._scene.enableGeometryBufferRenderer();
-                if (!geometry) {
-                    Tools.Warn("Geometry renderer is not supported, cannot create volumetric lights in Standard Rendering Pipeline");
-                    return;
-                }
-            }
 
             this._vlsEnabled = enabled;
             this._buildPipeline();
@@ -453,7 +446,6 @@
             this._floatTextureType = scene.getEngine().getCaps().textureFloatRender ? Engine.TEXTURETYPE_FLOAT : Engine.TEXTURETYPE_HALF_FLOAT;
 
             // Finish
-            scene.postProcessRenderPipelineManager.addPipeline(this);
             this._buildPipeline();
         }
 
@@ -544,10 +536,6 @@
                 // Create fxaa post-process
                 this.fxaaPostProcess = new FxaaPostProcess("fxaa", 1.0, null, Texture.BILINEAR_SAMPLINGMODE, scene.getEngine(), false, Engine.TEXTURETYPE_UNSIGNED_INT);
                 this.addEffect(new PostProcessRenderEffect(scene.getEngine(), "HDRFxaa", () => { return this.fxaaPostProcess; }, true));
-            }
-
-            if (this._cameras !== null) {
-                this._scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline(this._name, this._cameras);
             }
 
             if (!this._enableMSAAOnFirstPostProcess(this._samples) && this._samples > 1){
@@ -648,60 +636,7 @@
         }
 
         private _createVolumetricLightPostProcess(scene: Scene, ratio: number): void {
-            var geometryRenderer = <GeometryBufferRenderer>scene.enableGeometryBufferRenderer();
-            geometryRenderer.enablePosition = true;
-
-            var geometry = geometryRenderer.getGBuffer();
-
-            // Base post-process
-            this.volumetricLightPostProcess = new PostProcess("HDRVLS", "standard",
-                ["shadowViewProjection", "cameraPosition", "sunDirection", "sunColor", "scatteringCoefficient", "scatteringPower", "depthValues"],
-                ["shadowMapSampler", "positionSampler"],
-                ratio / 8,
-                null,
-                Texture.BILINEAR_SAMPLINGMODE,
-                scene.getEngine(),
-                false, "#define VLS\n#define NB_STEPS " + this._volumetricLightStepsCount.toFixed(1));
-
-            var depthValues = Vector2.Zero();
-
-            this.volumetricLightPostProcess.onApply = (effect: Effect) => {
-                if (this.sourceLight && this.sourceLight.getShadowGenerator() && this._scene.activeCamera) {
-                    var generator = this.sourceLight.getShadowGenerator()!;
-
-                    effect.setTexture("shadowMapSampler", generator.getShadowMap());
-                    effect.setTexture("positionSampler", geometry.textures[2]);
-
-                    effect.setColor3("sunColor", this.sourceLight.diffuse);
-                    effect.setVector3("sunDirection", this.sourceLight.getShadowDirection());
-
-                    effect.setVector3("cameraPosition", this._scene.activeCamera.globalPosition);
-                    effect.setMatrix("shadowViewProjection", generator.getTransformMatrix());
-
-                    effect.setFloat("scatteringCoefficient", this.volumetricLightCoefficient);
-                    effect.setFloat("scatteringPower", this.volumetricLightPower);
-
-                    depthValues.x = this.sourceLight.getDepthMinZ(this._scene.activeCamera);
-                    depthValues.y = this.sourceLight.getDepthMaxZ(this._scene.activeCamera);
-                    effect.setVector2("depthValues", depthValues);
-                }
-            };
-
-            this.addEffect(new PostProcessRenderEffect(scene.getEngine(), "HDRVLS", () => { return this.volumetricLightPostProcess; }, true));
-
-            // Smooth
-            this._createBlurPostProcesses(scene, ratio / 4, 0, "volumetricLightBlurScale");
-
-            // Merge
-            this.volumetricLightMergePostProces = new PostProcess("HDRVLSMerge", "standard", [], ["originalSampler"], ratio, null, Texture.BILINEAR_SAMPLINGMODE, scene.getEngine(), false, "#define VLSMERGE");
-
-            this.volumetricLightMergePostProces.onApply = (effect: Effect) => {
-                effect.setTextureFromPostProcess("originalSampler", this._bloomEnabled ? this.textureAdderFinalPostProcess : this.originalPostProcess);
-
-                this._currentDepthOfFieldSource = this.volumetricLightFinalPostProcess;
-            };
-
-            this.addEffect(new PostProcessRenderEffect(scene.getEngine(), "HDRVLSMerge", () => { return this.volumetricLightMergePostProces; }, true));
+         
         }
 
         // Create luminance
@@ -949,13 +884,14 @@
             this.addEffect(new PostProcessRenderEffect(scene.getEngine(), "HDRMotionBlur", () => { return this.motionBlurPostProcess; }, true));
         }
 
-        private _getDepthTexture(): Texture {
-            if (this._scene.getEngine().getCaps().drawBuffersExtension) {
-                let renderer = <GeometryBufferRenderer>this._scene.enableGeometryBufferRenderer();
-                return renderer.getGBuffer().textures[0];
-            }
+        private _getDepthTexture(): any {
+            // if (this._scene.getEngine().getCaps().drawBuffersExtension) {
+            //     let renderer = <GeometryBufferRenderer>this._scene.enableGeometryBufferRenderer();
+            //     return renderer.getGBuffer().textures[0];
+            // }
 
-            return this._scene.enableDepthRenderer().getDepthMap();
+            // return this._scene.enableDepthRenderer().getDepthMap();
+            return null;
         }
 
         private _disposePostProcesses(): void {
@@ -1031,7 +967,6 @@
         public dispose(): void {
             this._disposePostProcesses();
 
-            this._scene.postProcessRenderPipelineManager.detachCamerasFromRenderPipeline(this._name, this._cameras);
 
             super.dispose();
         }

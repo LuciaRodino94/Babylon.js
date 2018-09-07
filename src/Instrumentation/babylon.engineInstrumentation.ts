@@ -44,7 +44,7 @@ module BABYLON {
             if (value) {
                 this._onBeginFrameObserver = this.engine.onBeginFrameObservable.add(()=>{
                     if (!this._gpuFrameTimeToken) {
-                        this._gpuFrameTimeToken = this.engine.startTimeQuery();
+//                        this._gpuFrameTimeToken = this.engine.startTimeQuery();
                     }
                 });
 
@@ -52,13 +52,13 @@ module BABYLON {
                     if (!this._gpuFrameTimeToken) {
                         return;
                     }
-                    let time = this.engine.endTimeQuery(this._gpuFrameTimeToken);
+  //                  let time = this.engine.endTimeQuery(this._gpuFrameTimeToken);
 
-                    if (time > -1) {
-                        this._gpuFrameTimeToken = null;
-                        this._gpuFrameTime.fetchNewFrame();
-                        this._gpuFrameTime.addCount(time, true);
-                    }
+                    // if (time > -1) {
+                    //     this._gpuFrameTimeToken = null;
+                    //     this._gpuFrameTime.fetchNewFrame();
+                    //     this._gpuFrameTime.addCount(time, true);
+                    // }
                 });
             } else {
                 this.engine.onBeginFrameObservable.remove(this._onBeginFrameObserver);

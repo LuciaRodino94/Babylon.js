@@ -321,8 +321,8 @@
          * @param useWasUpdatedFlag defines a reserved property
          * @returns the world matrix
          */
-        public computeWorldMatrix(force?: boolean, useWasUpdatedFlag?: boolean): Matrix {
-            if (!force && this.isSynchronized(useWasUpdatedFlag)) {
+        public computeWorldMatrix(force?: boolean): Matrix {
+            if (!force && this.isSynchronized()) {
                 this._currentRenderId = this.getScene().getRenderId();
                 return this._worldMatrix;
             }

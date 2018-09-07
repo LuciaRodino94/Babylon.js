@@ -16,7 +16,7 @@
         private _renderAlphaTest: (subMeshes: SmartArray<SubMesh>) => void;
         private _renderTransparent: (subMeshes: SmartArray<SubMesh>) => void;
 
-        private _edgesRenderers = new SmartArray<IEdgesRenderer>(16);
+        private _edgesRenderers = new SmartArray<any>(16);
 
         public onBeforeTransparentRendering: () => void;
 
@@ -389,7 +389,6 @@
 
             // Sprites       
             var activeCamera = this._scene.activeCamera;
-            this._scene.onBeforeSpritesRenderingObservable.notifyObservers(this._scene);
             for (var id = 0; id < this._spriteManagers.length; id++) {
                 var spriteManager = this._spriteManagers.data[id];
 
@@ -397,7 +396,6 @@
                     spriteManager.render();
                 }
             }
-            this._scene.onAfterSpritesRenderingObservable.notifyObservers(this._scene);
         }
     }
 } 

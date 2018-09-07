@@ -295,10 +295,6 @@
                 }
             }
 
-            // Components
-            for (let component of scene._serializableComponents) {
-                component.serialize(serializationObject);
-            }
 
             return serializationObject;
         }

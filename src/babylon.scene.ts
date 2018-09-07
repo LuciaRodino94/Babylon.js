@@ -1011,159 +1011,6 @@
         private _uid: Nullable<string>;
 
         /**
-         * @hidden
-         * Backing store of defined scene components.
-         */
-        public _components: ISceneComponent[] = [];
-
-        /**
-         * @hidden
-         * Backing store of defined scene components.
-         */
-        public _serializableComponents: ISceneSerializableComponent[] = [];
-
-        /**
-         * List of components to register on the next registration step.
-         */
-        private _transientComponents: ISceneComponent[] = [];
-
-        /**
-         * Registers the transient components if needed.
-         */
-        private _registerTransientComponents(): void {
-            // Register components that have been associated lately to the scene.
-            if (this._transientComponents.length > 0) {
-                for (let component of this._transientComponents) {
-                    component.register();
-                }
-                this._transientComponents = [];
-            }
-        }
-
-        /**
-         * @hidden
-         * Add a component to the scene.
-         * Note that the ccomponent could be registered on th next frame if this is called after 
-         * the register component stage.
-         * @param component Defines the component to add to the scene
-         */
-        public _addComponent(component: ISceneComponent) {
-            this._components.push(component);
-            this._transientComponents.push(component);
-
-            const serializableComponent = component as ISceneSerializableComponent;
-            if (serializableComponent.addFromContainer) {
-                this._serializableComponents.push(serializableComponent);
-            }
-        }
-
-        /**
-         * @hidden
-         * Gets a component from the scene.
-         * @param name defines the name of the component to retrieve
-         * @returns the component or null if not present
-         */
-        public _getComponent(name: string): Nullable<ISceneComponent> {
-            for (let component of this._components) {
-                if (component.name === name) {
-                    return component;
-                }
-            }
-            return null;
-        }
-
-        /**
-         * @hidden
-         * Defines the actions happening before camera updates.
-         */
-        public _beforeCameraUpdateStage = Stage.Create<SimpleStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening before clear the canvas.
-         */
-        public _beforeClearStage = Stage.Create<SimpleStageAction>();
-        /**
-         * @hidden
-         * Defines the actions when collecting render targets for the frame.
-         */
-        public _gatherRenderTargetsStage = Stage.Create<RenderTargetsStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening for one camera in the frame.
-         */
-        public _gatherActiveCameraRenderTargetsStage = Stage.Create<RenderTargetsStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening during the per mesh ready checks.
-         */
-        public _isReadyForMeshStage = Stage.Create<MeshStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening before evaluate active mesh checks.
-         */
-        public _beforeEvaluateActiveMeshStage = Stage.Create<SimpleStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening during the evaluate sub mesh checks.
-         */
-        public _evaluateSubMeshStage = Stage.Create<EvaluateSubMeshStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening during the active mesh stage.
-         */
-        public _activeMeshStage = Stage.Create<ActiveMeshStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening during the per camera render target step.
-         */
-        public _cameraDrawRenderTargetStage = Stage.Create<CameraStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening just before the active camera is drawing.
-         */
-        public _beforeCameraDrawStage = Stage.Create<CameraStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening just before a rendering group is drawing.
-         */
-        public _beforeRenderingGroupDrawStage = Stage.Create<RenderingGroupStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening just before a mesh is drawing.
-         */
-        public _beforeRenderingMeshStage = Stage.Create<RenderingMeshStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening just after a mesh has been drawn.
-         */
-        public _afterRenderingMeshStage = Stage.Create<RenderingMeshStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening just after a rendering group has been drawn.
-         */
-        public _afterRenderingGroupDrawStage = Stage.Create<RenderingGroupStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening just after the active camera has been drawn.
-         */
-        public _afterCameraDrawStage = Stage.Create<CameraStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening when a pointer move event happens.
-         */
-        public _pointerMoveStage = Stage.Create<PointerMoveStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening when a pointer down event happens.
-         */
-        public _pointerDownStage = Stage.Create<PointerUpDownStageAction>();
-        /**
-         * @hidden
-         * Defines the actions happening when a pointer up event happens.
-         */
-        public _pointerUpStage = Stage.Create<PointerUpDownStageAction>();
-
-        /**
          * Creates a new Scene
          * @param engine defines the engine to use to render this scene
          */
@@ -1584,10 +1431,6 @@
                 this.setPointerOverMesh(null);
             }
 
-            for (let step of this._pointerMoveStage) {
-                pickResult = step.action(this._unTranslatedPointerX, this._unTranslatedPointerY, pickResult, isMeshPicked, canvas);
-            }
-
             if (pickResult) {
                 let type = evt.type === "mousewheel" || evt.type === "DOMMouseScroll" ? PointerEventTypes.POINTERWHEEL : PointerEventTypes.POINTERMOVE;
 
@@ -1674,9 +1517,6 @@
                 }
             }
             else {
-                for (let step of this._pointerDownStage) {
-                    pickResult = step.action(this._unTranslatedPointerX, this._unTranslatedPointerY, pickResult, evt);
-                }
             }
 
             if (pickResult) {
@@ -1744,9 +1584,6 @@
             }
             else {
                 if (!clickInfo.ignore) {
-                    for (let step of this._pointerUpStage) {
-                        pickResult = step.action(this._unTranslatedPointerX, this._unTranslatedPointerY, pickResult, evt);
-                    }
                 }
             }
 
@@ -2197,7 +2034,6 @@
                 return false;
             }
             let index: number;
-            let engine = this.getEngine();
 
             // Geometries
             for (index = 0; index < this.geometries.length; index++) {
@@ -2222,14 +2058,6 @@
 
                 if (!mesh.isReady(true)) {
                     return false;
-                }
-
-                let hardwareInstancedRendering = mesh.getClassName() === "InstancedMesh" || engine.getCaps().instancedArrays && (<Mesh>mesh).instances.length > 0;
-                // Is Ready For Mesh
-                for (let step of this._isReadyForMeshStage) {
-                    if (!step.action(mesh, hardwareInstancedRendering)) {
-                        return false;
-                    }
                 }
             }
 
@@ -2386,8 +2214,6 @@
 
         /** @hidden */
         public _checkIsReady() {
-            this._registerTransientComponents();
-
             if (this.isReady()) {
                 this.onReadyObservable.notifyObservers(this);
 
@@ -3949,10 +3775,6 @@
 
         private _evaluateSubMesh(subMesh: SubMesh, mesh: AbstractMesh): void {
             if (this.dispatchAllSubMeshesOfActiveMeshes || mesh.alwaysSelectAsActiveMesh || mesh.subMeshes.length === 1 || subMesh.isInFrustum(this._frustumPlanes)) {
-                for (let step of this._evaluateSubMeshStage) {
-                    step.action(mesh, subMesh);
-                }
-
                 const material = subMesh.getMaterial();
                 if (material !== null && material !== undefined) {
                     // Render targets
@@ -4107,20 +3929,14 @@
             this._activeParticleSystems.reset();
             this._activeSkeletons.reset();
             this._softwareSkinnedMeshes.reset();
-            for (let step of this._beforeEvaluateActiveMeshStage) {
-                step.action();
-            }
-
-            // World matrices
-            this.computeAllWorldMatrices();
-
+  
             // Determine mesh candidates
-            const meshes = this.getActiveMeshCandidates();
+            const meshes = this.meshes;//this.getActiveMeshCandidates();
             
             // Check each mesh
             const len = meshes.length;
             for (let i = 0; i < len; i++) {
-                const mesh = meshes.data[i];
+                const mesh = meshes[i];
                 if (mesh.isBlocked) {
                     continue;
                 }
@@ -4135,6 +3951,8 @@
                 if (mesh.actionManager && mesh.actionManager.hasSpecificTriggers2(ActionManager.OnIntersectionEnterTrigger, ActionManager.OnIntersectionExitTrigger)) {
                     this._meshesForIntersections.pushNoDuplicate(mesh);
                 }
+
+                mesh.computeWorldMatrix();
 
                 // Switch to current LOD
                 const meshLOD = mesh.getLOD(this.activeCamera);
@@ -4190,19 +4008,14 @@
                     this._softwareSkinnedMeshes.pushNoDuplicate(<Mesh>mesh);
                 }
             }
-
-            for (let step of this._activeMeshStage) {
-                step.action(sourceMesh, mesh);
-            }
-
             if (
                 mesh !== undefined && mesh !== null
                 && mesh.subMeshes !== undefined && mesh.subMeshes !== null && mesh.subMeshes.length > 0
             ) {
-                const subMeshes = this.getActiveSubMeshCandidates(mesh);
-                const len = subMeshes.length;
+                const subMeshes = mesh.subMeshes;
+                const len = mesh.subMeshes.length;
                 for (let i = 0; i < len; i++) {
-                    const subMesh = subMeshes.data[i];
+                    const subMesh = subMeshes[i];
                     this._evaluateSubMesh(subMesh, mesh);
                 }
             }
@@ -4276,11 +4089,6 @@
                 this._renderTargets.concatWithNoDuplicate(rigParent.customRenderTargets);
             }
 
-            // Collects render targets from external components.
-            for (let step of this._gatherActiveCameraRenderTargetsStage) {
-                step.action(this._renderTargets);
-            }
-
             if (this.renderTargetsEnabled) {
                 this._intermediateRendering = true;
 
@@ -4299,10 +4107,6 @@
                     this._renderId++;
                 }
 
-                for (let step of this._cameraDrawRenderTargetStage) {
-                    step.action(this.activeCamera);
-                }
-
                 this._intermediateRendering = false;
 
                 engine.restoreDefaultFramebuffer(); // Restore back buffer if needed
@@ -4315,20 +4119,10 @@
                 this.postProcessManager._prepareFrame();
             }
 
-            // Before Camera Draw
-            for (let step of this._beforeCameraDrawStage) {
-                step.action(this.activeCamera);
-            }
-
             // Render
             this.onBeforeDrawPhaseObservable.notifyObservers(this);
             this._renderingManager.render(null, null, true, true);
             this.onAfterDrawPhaseObservable.notifyObservers(this);
-
-            // After Camera Draw
-            for (let step of this._afterCameraDrawStage) {
-                step.action(this.activeCamera);
-            }
 
             // Finalize frame
             if (this.postProcessManager) {
@@ -4415,9 +4209,6 @@
 
             this._frameId++;
 
-            // Register components that have been associated lately to the scene.
-            this._registerTransientComponents();
-
             this._activeParticles.fetchNewFrame();
             this._totalVertices.fetchNewFrame();
             this._activeIndices.fetchNewFrame();
@@ -4489,12 +4280,6 @@
                     this.onAfterPhysicsObservable.notifyObservers(this);
                 }
             }
-
-            // Before camera update steps
-            for (let step of this._beforeCameraUpdateStage) {
-                step.action();
-            }
-
             // Update Cameras
             if (updateCameras) {
                 if (this.activeCameras.length > 0) {
@@ -4560,19 +4345,9 @@
 
             this.onAfterRenderTargetsRenderObservable.notifyObservers(this);
             this.activeCamera = currentActiveCamera;
-
-            for (let step of this._beforeClearStage) {
-                step.action();
-            }
-
             // Clear
             if (this.autoClearDepthAndStencil || this.autoClear) {
                 this._engine.clear(this.clearColor, this.autoClear || this.forceWireframe || this.forcePointsCloud, this.autoClearDepthAndStencil, this.autoClearDepthAndStencil);
-            }
-
-            // Collects render targets from external components.
-            for (let step of this._gatherRenderTargetsStage) {
-                step.action(this._renderTargets);
             }
 
             // Multi-cameras?
@@ -4785,29 +4560,6 @@
 
             this.skeletons = [];
             this.morphTargetManagers = [];
-            this._transientComponents = [];
-            this._isReadyForMeshStage.clear();
-            this._beforeEvaluateActiveMeshStage.clear();
-            this._evaluateSubMeshStage.clear();
-            this._activeMeshStage.clear();
-            this._cameraDrawRenderTargetStage.clear();
-            this._beforeCameraDrawStage.clear();
-            this._beforeRenderingGroupDrawStage.clear();
-            this._beforeRenderingMeshStage.clear();
-            this._afterRenderingMeshStage.clear();
-            this._afterRenderingGroupDrawStage.clear();
-            this._afterCameraDrawStage.clear();
-            this._beforeCameraUpdateStage.clear();
-            this._beforeClearStage.clear();
-            this._gatherRenderTargetsStage.clear();
-            this._gatherActiveCameraRenderTargetsStage.clear();
-            this._pointerMoveStage.clear();
-            this._pointerDownStage.clear();
-            this._pointerUpStage.clear();
-
-            for (let component of this._components) {
-                component.dispose();
-            }
 
             this.importedMeshesFiles = new Array<string>();
 
@@ -5400,11 +5152,6 @@
             if (this.postProcessManager) {
                 this.postProcessManager._rebuild();
             }
-
-            for (let component of this._components) {
-                component.rebuild();
-            }
-
             for (var system of this.particleSystems) {
                 system.rebuild();
             }

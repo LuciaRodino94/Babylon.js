@@ -524,7 +524,7 @@
          */
         public edgesColor = new Color4(1, 0, 0, 1);
         /** @hidden */
-        public _edgesRenderer: Nullable<IEdgesRenderer>;
+        public _edgesRenderer: any;
 
         // Cache
         private _collisionsTransformMatrix = Matrix.Zero();
@@ -1119,8 +1119,9 @@
          * @returns true if the mesh is in the frustum planes 
          */
         public isInFrustum(frustumPlanes: Plane[]): boolean {
-            return this._boundingInfo !== null && this._boundingInfo.isInFrustum(frustumPlanes, this.cullingStrategy);
+            return this._boundingInfo !== null && this._boundingInfo.isInFrustum(frustumPlanes);
         }
+
 
         /**
          * Returns `true` if the mesh is completely in the frustum defined be the passed array of planes.  
@@ -1538,11 +1539,6 @@
 
             // Query
             let engine = this.getScene().getEngine();
-            if (this._occlusionQuery) {
-                this._isOcclusionQueryInProgress = false;
-                engine.deleteQuery(this._occlusionQuery);
-                this._occlusionQuery = null;
-            }
 
             // Engine
             engine.wipeCaches();

@@ -1415,11 +1415,6 @@
             if (enableAlphaMode) {
                 engine.setAlphaMode(this._effectiveMaterial.alphaMode);
             }
-
-            for (let step of scene._beforeRenderingMeshStage) {
-                step.action(this, subMesh, batch);
-            }
-
             var effect: Nullable<Effect>;
             if (this._effectiveMaterial.storeEffectOnSubMeshes) {
                 effect = subMesh.effect;
@@ -1471,10 +1466,6 @@
 
             // Unbind
             this._effectiveMaterial.unbind();
-
-            for (let step of scene._afterRenderingMeshStage) {
-                step.action(this, subMesh, batch);
-            }
 
             if (this._onAfterRenderObservable) {
                 this._onAfterRenderObservable.notifyObservers(this);
@@ -2382,8 +2373,6 @@
             // Overlay
             serializationObject.overlayAlpha = this.overlayAlpha;
             serializationObject.overlayColor = this.overlayColor.asArray();
-            serializationObject.renderOverlay = this.renderOverlay;
-
             // Fog
             serializationObject.applyFog = this.applyFog;
 
@@ -2492,7 +2481,6 @@
             mesh.isVisible = parsedMesh.isVisible;
             mesh.infiniteDistance = parsedMesh.infiniteDistance;
 
-            mesh.showBoundingBox = parsedMesh.showBoundingBox;
             mesh.showSubMeshesBoundingBox = parsedMesh.showSubMeshesBoundingBox;
 
             if (parsedMesh.applyFog !== undefined) {
@@ -2545,10 +2533,6 @@
 
             if (parsedMesh.overlayColor !== undefined) {
                 mesh.overlayColor = Color3.FromArray(parsedMesh.overlayColor);
-            }
-
-            if (parsedMesh.renderOverlay !== undefined) {
-                mesh.renderOverlay = parsedMesh.renderOverlay;
             }
 
             // Geometry

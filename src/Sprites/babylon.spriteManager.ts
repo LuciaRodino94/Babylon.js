@@ -85,9 +85,9 @@
         }
 
         constructor(public name: string, imgUrl: string, capacity: number, cellSize: any, scene: Scene, epsilon: number = 0.01, samplingMode: number = Texture.TRILINEAR_SAMPLINGMODE) {
-            if (!scene._getComponent(SceneComponentConstants.NAME_SPRITE)) {
-                scene._addComponent(new SpriteSceneComponent(scene));
-            }
+        //    if (!scene._getComponent(SceneComponentConstants.NAME_SPRITE)) {
+          //      scene._addComponent(new SpriteSceneComponent(scene));
+        //    }
             this._capacity = capacity;
             this._spriteTexture = new Texture(imgUrl, scene, true, false, samplingMode);
             this._spriteTexture.wrapU = Texture.CLAMP_ADDRESSMODE;
@@ -105,7 +105,7 @@
 
             this._epsilon = epsilon;
             this._scene = scene;
-            this._scene.spriteManagers.push(this);
+        //    this._scene.spriteManagers.push(this);
 
             var indices = [];
             var index = 0;
@@ -320,8 +320,8 @@
             }
 
             // Remove from scene
-            var index = this._scene.spriteManagers.indexOf(this);
-            this._scene.spriteManagers.splice(index, 1);
+           // var index = this._scene.spriteManagers.indexOf(this);
+         //  this._scene.spriteManagers.splice(index, 1);
 
             // Callback
             this.onDisposeObservable.notifyObservers(this);

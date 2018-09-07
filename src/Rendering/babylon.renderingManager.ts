@@ -76,13 +76,7 @@
             info.camera = this._scene.activeCamera;
 
             // Dispatch sprites
-            if (this._scene.spriteManagers && renderSprites) {
-                for (let index = 0; index < this._scene.spriteManagers.length; index++) {
-                    var manager = this._scene.spriteManagers[index];
-                    this.dispatchSprites(manager);
-                }
-            }
-
+         
             // Render
             for (let index = RenderingManager.MIN_RENDERINGGROUPS; index < RenderingManager.MAX_RENDERINGGROUPS; index++) {
                 this._depthStencilBufferAlreadyCleaned = index === RenderingManager.MIN_RENDERINGGROUPS;
@@ -108,13 +102,8 @@
                 }
 
                 // Render
-                for (let step of this._scene._beforeRenderingGroupDrawStage) {
-                    step.action(index);
-                }
                 renderingGroup.render(customRenderFunction, renderSprites, renderParticles, activeMeshes);
-                for (let step of this._scene._afterRenderingGroupDrawStage) {
-                    step.action(index);
-                }
+
 
                 // After Observable
                 this._scene.onAfterRenderingGroupObservable.notifyObservers(info, renderingGroupMask);

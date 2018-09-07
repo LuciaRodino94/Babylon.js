@@ -389,15 +389,10 @@
         }
 
         /** @hidden */
-        public isSynchronized(useWasUpdatedFlag?: boolean): boolean {
+        public isSynchronized(): boolean {
             var check = this.hasNewParent();
 
-            if (!useWasUpdatedFlag) {
-                check = check || !this.isSynchronizedWithParent();
-            } else if (this._parentNode) {
-                check = this._parentNode._worldMatrixWasUpdated; 
-            }
-
+            check = check || !this.isSynchronizedWithParent();
             check = check || !this._isSynchronized();
 
             return !check;

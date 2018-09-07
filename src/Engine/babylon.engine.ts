@@ -3159,7 +3159,6 @@
                 program.__SPECTOR_rebuildProgram = null;
 
                 if (program.transformFeedback) {
-                    this.deleteTransformFeedback(program.transformFeedback);
                     program.transformFeedback = null;
                 }
 
@@ -3279,19 +3278,7 @@
             context.attachShader(shaderProgram, vertexShader);
             context.attachShader(shaderProgram, fragmentShader);
 
-            if (this.webGLVersion > 1 && transformFeedbackVaryings) {
-                let transformFeedback = this.createTransformFeedback();
-
-                this.bindTransformFeedback(transformFeedback);
-                this.setTranformFeedbackVaryings(shaderProgram, transformFeedbackVaryings);
-                shaderProgram.transformFeedback = transformFeedback;
-            }
-
             context.linkProgram(shaderProgram);
-
-            if (this.webGLVersion > 1 && transformFeedbackVaryings) {
-                this.bindTransformFeedback(null);
-            }
 
             var linked = context.getProgramParameter(shaderProgram, context.LINK_STATUS);
 

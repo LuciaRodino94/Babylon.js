@@ -738,12 +738,12 @@ module BABYLON {
          * @param useWasUpdatedFlag defines a reserved property
          * @returns the world matrix
          */
-        public computeWorldMatrix(force?: boolean, useWasUpdatedFlag?: boolean): Matrix {
+        public computeWorldMatrix(force?: boolean): Matrix {
             if (this._isWorldMatrixFrozen) {
                 return this._worldMatrix;
             }
 
-            if (!force && this.isSynchronized(useWasUpdatedFlag)) {
+            if (!force && this.isSynchronized()) {
                 this._currentRenderId = this.getScene().getRenderId();
                 return this._worldMatrix;
             }
