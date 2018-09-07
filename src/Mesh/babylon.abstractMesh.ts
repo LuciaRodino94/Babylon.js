@@ -341,21 +341,6 @@
             this._markSubMeshesAsLightDirty();
         }
 
-        /** 
-         * Gets or sets a boolean indicating that this mesh can receive realtime shadows
-         * @see http://doc.babylonjs.com/babylon101/shadows
-         */
-        public get showBoundingBox(): boolean {
-            return this._showBoundingBox || false;
-        }
-        public set showBoundingBox(value: boolean) {
-            this._showBoundingBox = value;
-            // Lazyly creates a BB renderer if needed.
-            if (value) {
-                this.getScene().getBoundingBoxRenderer();
-            }
-        }
-
         /** Defines color to use when rendering outline */
         public outlineColor = Color3.Red();
         /** Define width to use when rendering outline */
